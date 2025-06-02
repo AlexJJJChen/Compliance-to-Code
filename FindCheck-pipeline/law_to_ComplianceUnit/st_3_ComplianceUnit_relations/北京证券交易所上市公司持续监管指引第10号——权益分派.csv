@@ -1,0 +1,5 @@
+﻿source,relation,target
+cu_4_1,refer_to,《公司法》
+cu_4_3,refer_to,《国务院关于开展优先股试点的指导意见》
+cu_16_1,refer_to,《企业会计准则》
+cu_8_2,exclude,cu_8_1

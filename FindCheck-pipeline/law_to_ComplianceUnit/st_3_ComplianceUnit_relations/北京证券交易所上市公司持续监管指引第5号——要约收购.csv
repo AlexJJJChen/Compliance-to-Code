@@ -1,0 +1,13 @@
+﻿source,relation,target
+cu_24_1,should_include,Law_9
+cu_2_1,refer_to,《证券法》
+cu_2_1,refer_to,《收购管理办法》
+cu_2_2,refer_to,《证券法》
+cu_2_2,refer_to,《收购管理办法》
+cu_4_1,refer_to,《收购管理办法》
+cu_4_1,refer_to,《55号准则》
+cu_20_1,refer_to,《55号准则》
+cu_21_1,refer_to,Law_21_3
+cu_21_3,refer_to,Law_21_3
+cu_24_1,refer_to,Law_9
+cu_27_1,refer_to,《收购管理办法》

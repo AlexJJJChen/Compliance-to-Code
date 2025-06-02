@@ -1,0 +1,13 @@
+﻿source,relation,target
+cu_12_5,exclude,cu_8_1
+cu_12_5,exclude,cu_8_2
+cu_2_2,refer_to,本所其他有关规定
+cu_4_1,refer_to,本所有关规定
+cu_10_7,refer_to,cu_10_6
+cu_12_7,refer_to,Law_17
+cu_14_1,refer_to,本所股票停复牌有关规定
+cu_14_2,refer_to,本所股票停复牌有关规定
+cu_16_1,refer_to,本所股票终止上市有关规定
+cu_16_2,refer_to,本所股票终止上市有关规定
+cu_18_1,refer_to,本所股票停复牌有关规定
+cu_18_2,refer_to,本所股票停复牌有关规定

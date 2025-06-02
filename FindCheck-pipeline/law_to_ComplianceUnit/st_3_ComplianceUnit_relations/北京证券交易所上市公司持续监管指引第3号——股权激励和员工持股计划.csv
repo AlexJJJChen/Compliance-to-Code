@@ -1,0 +1,7 @@
+﻿source,relation,target
+cu_2_3,exclude,Law_2
+cu_2_3,refer_to,中国证监会及本所其他相关规定
+cu_23_1,refer_to,《证券法》
+cu_37_1,refer_to,附件5
+cu_40_3,refer_to,附件7
+cu_54_1,refer_to,附件8

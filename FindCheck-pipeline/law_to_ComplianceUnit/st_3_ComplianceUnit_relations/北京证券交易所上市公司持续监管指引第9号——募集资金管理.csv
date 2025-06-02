@@ -1,0 +1,12 @@
+﻿source,relation,target
+cu_14_6,refer_to,《上市规则》
+cu_25_1,refer_to,《上市规则》
+cu_25_1,refer_to,《北京证券交易所证券发行上市保荐业务管理细则》
+cu_25_2,refer_to,《上市规则》
+cu_17_7,exclude,cu_17_2
+cu_17_7,exclude,cu_17_3
+cu_17_7,exclude,cu_17_4
+cu_17_7,exclude,cu_17_5
+cu_17_7,exclude,cu_17_6
+cu_20_1,exclude,cu_20_3
+cu_12_8,exclude,cu_12_7
