@@ -59,9 +59,12 @@
 
 Regulatory compliance is crucial for corporate governance, but financial regulations are often intricate and challenging to interpret. While Large Language Models (LLMs) show promise in automating the conversion of regulatory text to compliance logic, they face limitations with Chinese financial regulations, including incomplete domain knowledge and insufficient reasoning. To address this, we introduce **Compliance-to-Code**, the first large-scale Chinese dataset for financial regulatory compliance. It contains 1,159 annotated clauses from 361 regulations, structured into logical elements with Python code mappings and detailed reasoning. We also present **FinCheck**, a pipeline for regulation structuring, code generation, and report generation, demonstrating the dataset's utility.
 
+![overview](static/FinCheck_Pipeline_overview.png)
+
 ## 📢 News
 - 🚀 [26/05/2025] We released our [paper](https://arxiv.org/abs/2505.19804) on arxiv.
 - 🚀 [15/05/2025] We released the **Compliance-to-Code** dataset and the **FinCheck** pipeline, the first large-scale Chinese resource for code-based financial compliance automation.
+
 
 ## 💡 Highlights
 - 🔥 **Dataset:** We propose **Compliance-to-Code**, the first large-scale Chinese financial regulation dataset tailored for code-based compliance reasoning. It includes 1,159 annotated clauses from 361 regulations across ten categories, with 307 Python modules and detailed reasoning steps.
