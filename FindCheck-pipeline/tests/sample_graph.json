@@ -1,0 +1,72 @@
+{
+    "regulation_id": "regulation_04",
+    "regulation_name": "测试法规",
+    "description": "测试法规描述",
+    "units": [
+        {
+            "cu_id": "cu_1_1",
+            "regulation_id": "",
+            "category": "",
+            "source": "",
+            "subject": "测试主体",
+            "condition": "测试条件",
+            "constraint": "测试约束",
+            "code": null,
+            "contextual_info": "测试上下文信息",
+            "relation": null,
+            "target": null
+        },
+        {
+            "cu_id": "cu_2_1",
+            "regulation_id": "",
+            "category": "",
+            "source": "",
+            "subject": "测试主体2",
+            "condition": "测试条件2",
+            "constraint": "测试约束2",
+            "code": "import pandas as pd\n\ndef check_test(df):\n    df['test_subject'] = True\n    df['test_condition'] = True\n    df['test_constraint'] = False\n    return df",
+            "contextual_info": "",
+            "relation": ["exclude"],
+            "target": ["cu_3_1"]
+        },
+        {
+            "cu_id": "cu_3_1",
+            "regulation_id": "",
+            "category": "",
+            "source": "",
+            "subject": "测试主体3",
+            "condition": "测试条件3",
+            "constraint": "测试约束3",
+            "code": "import pandas as pd\n\ndef check_test(df):\n    df['test_subject'] = True\n    df['test_condition'] = True\n    df['test_constraint'] = False\n    return df",
+            "contextual_info": "",
+            "relation": null,
+            "target": null
+        },
+        {
+            "cu_id": "cu_4_1",
+            "regulation_id": "",
+            "category": "",
+            "source": "",
+            "subject": "测试主体4",
+            "condition": "测试条件4",
+            "constraint": "测试约束4",
+            "code": "import pandas as pd\n\ndef check_test(df):\n    df['test_subject'] = True\n    df['test_condition'] = True\n    df['test_constraint'] = True\n    return df",
+            "contextual_info": "",
+            "relation": ["should_include"],
+            "target": ["cu_5_1"]
+        },
+        {
+            "cu_id": "cu_5_1",
+            "regulation_id": "",
+            "category": "",
+            "source": "",
+            "subject": "测试主体5",
+            "condition": "测试条件5",
+            "constraint": "测试约束5",
+            "code": "import pandas as pd\n\ndef check_test(df):\n    df['test_subject'] = True\n    df['test_condition'] = False\n    df['test_constraint'] = False\n    return df",
+            "contextual_info": "",
+            "relation": null,
+            "target": null
+        }
+    ]
+} 

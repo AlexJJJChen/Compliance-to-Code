@@ -1,0 +1,216 @@
+{
+    "metadata": {
+        "company_name": "测试公司",
+        "regulation_name": "测试法规",
+        "date_range": [
+            "2020-01-01",
+            "2024-12-31"
+        ],
+        "request_params": {
+            "regulation_id": "regulation_04",
+            "company_name": "测试公司",
+            "start_date": null,
+            "end_date": null
+        }
+    },
+    "results": {
+        "company_name": "测试公司",
+        "evaluation_time": "2025-07-17T16:45:00.000000",
+        "regulations": {
+            "regulation_04": {
+                "regulation_name": "测试法规",
+                "is_compliant": false,
+                "total_violations": 2,
+                "total_errors": 0,
+                "node_results": {
+                    "cu_1_1": {
+                        "unit_info": {
+                            "cu_id": "cu_1_1",
+                            "regulation_id": "",
+                            "category": "",
+                            "source": "",
+                            "subject": "测试主体",
+                            "condition": "测试条件",
+                            "constraint": "测试约束",
+                            "code": null,
+                            "contextual_info": "测试上下文信息",
+                            "relation": null,
+                            "target": null
+                        },
+                        "execution_result": {
+                            "status": "qualitative",
+                            "timestamp": "2025-07-17T16:45:00.000000",
+                            "message": "定性分析节点，无代码执行"
+                        }
+                    },
+                    "cu_2_1": {
+                        "unit_info": {
+                            "cu_id": "cu_2_1",
+                            "regulation_id": "",
+                            "category": "",
+                            "source": "",
+                            "subject": "测试主体2",
+                            "condition": "测试条件2",
+                            "constraint": "测试约束2",
+                            "code": "import pandas as pd\n\ndef check_test(df):\n    df['test_subject'] = True\n    df['test_condition'] = True\n    df['test_constraint'] = False\n    return df",
+                            "contextual_info": "",
+                            "relation": [
+                                "exclude"
+                            ],
+                            "target": [
+                                "cu_3_1"
+                            ]
+                        },
+                        "execution_result": {
+                            "status": "executed",
+                            "timestamp": "2025-07-17T16:45:00.000000",
+                            "output_analysis": {
+                                "has_violation": true,
+                                "has_error": false,
+                                "violation_count": 1,
+                                "error_count": 0,
+                                "violations": [
+                                    {
+                                        "row_index": 0,
+                                        "details": "违规详情"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "cu_3_1": {
+                        "unit_info": {
+                            "cu_id": "cu_3_1",
+                            "regulation_id": "",
+                            "category": "",
+                            "source": "",
+                            "subject": "测试主体3",
+                            "condition": "测试条件3",
+                            "constraint": "测试约束3",
+                            "code": "import pandas as pd\n\ndef check_test(df):\n    df['test_subject'] = True\n    df['test_condition'] = True\n    df['test_constraint'] = False\n    return df",
+                            "contextual_info": "",
+                            "relation": null,
+                            "target": null
+                        },
+                        "execution_result": {
+                            "status": "executed",
+                            "timestamp": "2025-07-17T16:45:00.000000",
+                            "output_analysis": {
+                                "has_violation": true,
+                                "has_error": false,
+                                "violation_count": 1,
+                                "error_count": 0,
+                                "violations": [
+                                    {
+                                        "row_index": 0,
+                                        "details": "违规详情"
+                                    }
+                                ]
+                            }
+                        },
+                        "relations": {
+                            "excluded": true,
+                            "excluded_by": "cu_2_1"
+                        }
+                    },
+                    "cu_4_1": {
+                        "unit_info": {
+                            "cu_id": "cu_4_1",
+                            "regulation_id": "",
+                            "category": "",
+                            "source": "",
+                            "subject": "测试主体4",
+                            "condition": "测试条件4",
+                            "constraint": "测试约束4",
+                            "code": "import pandas as pd\n\ndef check_test(df):\n    df['test_subject'] = True\n    df['test_condition'] = True\n    df['test_constraint'] = True\n    return df",
+                            "contextual_info": "",
+                            "relation": [
+                                "should_include"
+                            ],
+                            "target": [
+                                "cu_5_1"
+                            ]
+                        },
+                        "execution_result": {
+                            "status": "executed",
+                            "timestamp": "2025-07-17T16:45:00.000000",
+                            "output_analysis": {
+                                "has_violation": false,
+                                "has_error": false,
+                                "violation_count": 0,
+                                "error_count": 0,
+                                "violations": []
+                            }
+                        }
+                    },
+                    "cu_5_1": {
+                        "unit_info": {
+                            "cu_id": "cu_5_1",
+                            "regulation_id": "",
+                            "category": "",
+                            "source": "",
+                            "subject": "测试主体5",
+                            "condition": "测试条件5",
+                            "constraint": "测试约束5",
+                            "code": "import pandas as pd\n\ndef check_test(df):\n    df['test_subject'] = True\n    df['test_condition'] = False\n    df['test_constraint'] = False\n    return df",
+                            "contextual_info": "",
+                            "relation": null,
+                            "target": null
+                        },
+                        "execution_result": {
+                            "status": "executed",
+                            "timestamp": "2025-07-17T16:45:00.000000",
+                            "output_analysis": {
+                                "has_violation": true,
+                                "has_error": false,
+                                "violation_count": 1,
+                                "error_count": 0,
+                                "violations": [
+                                    {
+                                        "row_index": 0,
+                                        "details": "被强制包含后发现违规"
+                                    }
+                                ]
+                            }
+                        },
+                        "relations": {
+                            "forced_by": "cu_4_1"
+                        }
+                    }
+                },
+                "final_compliance_status": {
+                    "is_compliant": false,
+                    "violation_count": 2,
+                    "excluded_count": 1,
+                    "forced_count": 1,
+                    "error_count": 0,
+                    "skipped_count": 1,
+                    "success_count": 1,
+                    "violation_units": [
+                        "cu_2_1",
+                        "cu_5_1"
+                    ],
+                    "excluded_units": [
+                        {
+                            "cu_id": "cu_3_1",
+                            "excluded_by": "cu_2_1"
+                        }
+                    ],
+                    "forced_units": [
+                        {
+                            "cu_id": "cu_5_1",
+                            "forced_by": "cu_4_1"
+                        }
+                    ],
+                    "summary": "不合规（发现2个违规单元，1个单元因关系被排除，1个单元因关系被强制包含）"
+                }
+            }
+        },
+        "relation_processing_time": 4.3e-05
+    },
+    "graph": {
+        "nodes": [],
+        "links": [],
+        "categories": []
+    }
+}

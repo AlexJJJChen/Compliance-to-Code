@@ -1,0 +1,36 @@
+/* 基本的CSS重置，用于统一不同浏览器的默认样式 */
+
+/* 移除所有元素的默认外边距和内边距 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 修复输入框在获得焦点时的样式问题 */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+/* 特别针对日期输入框的修复 */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 1;
+}
+
+/* 确保所有表单元素使用相同的字体 */
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+} 

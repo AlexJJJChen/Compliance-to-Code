@@ -1,0 +1,2324 @@
+{
+  "regulation_id": "regulation_04",
+  "regulation_name": "北京证券交易所上市公司持续监管指引第4号——股份回购",
+  "nodes": [
+    {
+      "cu_id": "cu_1_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "为了引导和规范上市公司回购股份行为，维护证券市场秩序，保护投资者和上市公司合法权益，明确股份回购业务办理要求，根据《中华人民共和国公司法》（以下简称《公司法》）、《中华人民共和国证券法》（以下简称《证券法》）、《上市公司股份回购规则》（以下简称《回购规则》）及《北京证券交易所股票上市规则（试行）》（以下简称《上市规则》）等有关规定，制定本指引。"
+    },
+    {
+      "cu_id": "cu_2_1",
+      "subject": "上市公司",
+      "condition": "以竞价方式回购股份",
+      "constraint": "适用本指引",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_2_2",
+      "subject": "上市公司",
+      "condition": "以要约方式回购股份",
+      "constraint": "适用本指引",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_2_3",
+      "subject": "上市公司",
+      "condition": "在符合本指引规定的情形下向特定对象回购股份",
+      "constraint": "适用本指引",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_3_1",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当符合《公司法》《证券法》《回购规则》《上市规则》、本指引和公司章程的规定",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_3_2",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当有利于公司的持续发展",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_3_3",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "不得损害股东和债权人的合法权益",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_3_4",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "严格履行相应的决策程序和信息披露义务",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_3_5",
+      "subject": "董监高",
+      "condition": "在回购股份中",
+      "constraint": "应当忠实、勤勉地履行职责",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_4_1",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需回购股份的",
+      "constraint": "应当符合以下条件之一：（一）公司股票收盘价格低于最近一期每股净资产；（二）连续20个交易日内公司股票收盘价格跌幅累计达到20%；（三）公司股票收盘价格低于最近一年股票最高收盘价格的50%；（四）中国证券监督管理委员会（以下简称中国证监会）规定的其他条件。",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_4_1(df):\n    '''\n    检查MEU_4_1合规性：\n    - subject: 上市公司（所有记录自动满足）\n    - condition: 通过了维护公司价值及股东权益所必需的回购决议\n    - constraint: 需满足四个价格条件之一（仅验证前三项）\n    '''\n    df = df.copy()\n\n    # 初始化合规标记列\n    df['meu_4_1_subject'] = True  # 所有记录均为上市公司\n    df['meu_4_1_condition'] = False\n    df['meu_4_1_constraint'] = None\n\n    # 标记condition条件（存在特定目的的回购方案）\n    valid_condition = (df['存在回购方案'] & (df['回购用途'] == '维护公司价值及股东权益所必需') & (df['日期'] == df['决议通过日'])) \n    df['meu_4_1_condition'] = valid_condition\n\n    # 计算constraint的三个可验证条件\n    # 条件1：收盘价低于每股净资产\n    condition1 = df['收盘价'] < df['每股净资产']\n\n    # 条件2：20交易日累计跌幅20%（按公司分组计算）\n    df['20d_prior_close'] = df.groupby('公司简称')['收盘价'].shift(20)\n    price_drop = (df['收盘价'] - df['20d_prior_close']) / df['20d_prior_close']\n    condition2 = price_drop <= -0.2\n\n    # 条件3：低于一年最高价50%（滚动250交易日窗口）\n    df['1y_high'] = df.groupby('公司简称')['收盘价'].transform(\n        lambda x: x.rolling(250, min_periods=1).max()\n    )\n    condition3 = df['收盘价'] < (df['1y_high'] * 0.5)\n\n    # 合并有效约束条件（前三项）\n    valid_constraint = condition1 | condition2 | condition3\n    \n    # 标记constraint列\n    df['meu_4_1_constraint'] = valid_constraint.astype(bool)\n    \n    # 清理中间计算列\n    df.drop(['20d_prior_close', '1y_high'], axis=1, inplace=True, errors='ignore')\n\n    return df "
+    },
+    {
+      "cu_id": "cu_5_1",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当依据《回购规则》和本指引的规定履行决策程序和信息披露义务",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_5_2",
+      "subject": "上市公司 | 董监高",
+      "condition": "",
+      "constraint": "应当保证所披露信息的真实、准确、完整，无虚假记载、误导性陈述或者重大遗漏",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_1",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当充分关注公司的债务履行能力和持续经营能力",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_2",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当审慎制定、实施回购股份方案",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_3",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "回购股份的规模、价格等应当与公司的实际财务状况相匹配",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_4",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当建立规范有效的内部控制制度",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_5",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当制定具体的操作方案",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_6",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当防范内幕交易及其他不公平交易行为",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_7",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "不得利用回购股份操纵本公司股价",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_8",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "不得向公司董监高、控股股东、实际控制人等进行利益输送",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_9",
+      "subject": "本所",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "鼓励上市公司在章程或其他治理文件中完善股份回购机制，明确股份回购的触发条件、回购流程等具体安排"
+    },
+    {
+      "cu_id": "cu_7_1",
+      "subject": "任何人",
+      "condition": "",
+      "constraint": "不得利用上市公司回购股份从事内幕交易、操纵市场和证券欺诈等违法违规活动",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_8_1",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当使用在中国证券登记结算有限责任公司开立的上市公司回购专用证券账户",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_8_2",
+      "subject": "上市公司",
+      "condition": "使用回购专户",
+      "constraint": "只能用于存放已回购的股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_8_3",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "不得使用公司普通证券账户买卖本公司股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_9_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "上市公司回购专户中的股份，不享有股东大会表决权、利润分配、公积金转增股本、认购新股和可转换公司债券等权利"
+    },
+    {
+      "cu_id": "cu_9_2",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "上市公司回购专户中的股份不得质押和出借"
+    },
+    {
+      "cu_id": "cu_9_3",
+      "subject": "上市公司",
+      "condition": "计算相关指标时",
+      "constraint": "应当从总股本中扣减已回购的股份数量",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_1",
+      "subject": "上市公司",
+      "condition": "不存在依照有关规定实施优先股发行行为的",
+      "constraint": "不得同时实施股份回购和股份发行行为",
+      "contextual_info": "股份回购行为，是指上市公司股东大会或者董事会通过回购股份方案后，上市公司收购本公司股份的行为。实施股份发行行为，是指上市公司自向特定对象发送认购邀请书或者取得注册批复并启动向不特定对象发行股份之日起至新增股份完成登记之日止的股份发行行为。"
+    },
+    {
+      "cu_id": "cu_10_4",
+      "subject": "股东大会",
+      "condition": "授权董事会实施股份回购",
+      "constraint": "",
+      "contextual_info": "可以依法一并授权董事会实施再融资"
+    },
+    {
+      "cu_id": "cu_10_5",
+      "subject": "上市公司",
+      "condition": "实施股份回购",
+      "constraint": "",
+      "contextual_info": "可以同时申请发行可转换公司债券，募集时间由上市公司按照有关规定予以确定"
+    },
+    {
+      "cu_id": "cu_11_1",
+      "subject": "董事会",
+      "condition": "上市公司触及本指引第四条规定条件",
+      "constraint": "应当及时了解是否存在对股价可能产生较大影响的重大事件和其他因素；应当通过多种渠道主动与股东特别是中小股东进行沟通和交流；应当充分听取股东关于公司是否应实施股份回购的意见和诉求",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_12_1",
+      "subject": "投资者",
+      "condition": "因上市公司回购股份导致持有或通过协议、其他安排与他人共同持有该公司已发行的有表决权股份超过30%",
+      "constraint": "",
+      "contextual_info": "可以免于发出要约"
+    },
+    {
+      "cu_id": "cu_13_1",
+      "subject": "上市公司",
+      "condition": "实施竞价回购",
+      "constraint": "应当符合公司股票上市已满6个月",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_13_1(df):\n    '''\n    验证MEU_13_1合规性:\n    - subject: 上市公司\n    - condition: 实施竞价回购\n    - constraint: 上市已满6个月\n    \n    参数说明:\n    df: 包含公司每日状态的面板数据，必须包含['上市日期','日期','回购方式']列\n    \n    验证逻辑:\n    1. 所有公司默认满足subject条件（均为上市公司）\n    2. 当回购方式为竞价交易时满足condition\n    3. 当当前日期距离上市日期满6个月时满足constraint\n    '''\n    \n    df = df.copy()\n    \n    # 初始化标记列\n    df['meu_13_1_subject'] = True  # 所有公司均为上市公司\n    df['meu_13_1_condition'] = False\n    df['meu_13_1_constraint'] = None\n    \n    # 标记condition条件（实施竞价回购）\n    is_auction_repurchase = df['回购方式'] == '竞价回购'\n    df.loc[is_auction_repurchase, 'meu_13_1_condition'] = True\n    \n    # 标记constraint条件（上市满6个月）\n    # 计算上市日期+6个月后的日期\n    six_months_after = df['上市日期'] + pd.DateOffset(months=6)\n    # 比较当前日期是否满足时间要求（包含等于）\n    valid_constraint = df['日期'] >= six_months_after\n    df.loc[valid_constraint, 'meu_13_1_constraint'] = True\n    df.loc[~valid_constraint, 'meu_13_1_constraint'] = False\n    \n    return df"
+    },
+    {
+      "cu_id": "cu_13_2",
+      "subject": "上市公司",
+      "condition": "实施竞价回购",
+      "constraint": "应当符合公司最近1年无重大违法行为",
+      "contextual_info": "",
+      "code": "import pandas as pd\nfrom bisect import bisect_left, bisect_right\n\ndef check_meu_13_2(df):\n    '''\n    合规性检查函数，针对MEU_13_2条款：\n    - subject: 上市公司\n    - condition: 实施竞价回购\n    - constraint: 最近1年无重大违法行为\n    \n    参数说明：\n    df : 包含上市公司每日状态数据的DataFrame\n    \n    返回：\n    添加合规性标记后的DataFrame\n    '''\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_13_2_subject'] = True  # 所有公司均为上市公司\n    df['meu_13_2_condition'] = False\n    df['meu_13_2_constraint'] = None\n\n    # condition: 实施竞价回购\n    valid_condition = df['存在回购方案'] & (df['回购方式'] == '竞价回购')\n    df.loc[valid_condition, 'meu_13_2_condition'] = True\n\n    # constraint: 最近1年无重大违法行为\n    # 预处理：获取每个公司的重大违法日期列表（已排序）\n    df_sorted = df.sort_values(['公司简称', '日期'])\n    violation_mask = df_sorted['公司法律情况'] == '重大违法行为'\n    violations = df_sorted[violation_mask][['公司简称', '日期']]\n    \n    # 将日期转换为Timestamp并排序存储\n    violation_dict = violations.groupby('公司简称')['日期'].apply(\n        lambda x: sorted(pd.to_datetime(x).tolist())\n    ).to_dict()\n\n    # 定义检查函数（使用二分查找优化）\n    def check_constraint(row):\n        company = row['公司简称']\n        current_date = pd.to_datetime(row['日期'])\n        start_date = current_date - pd.DateOffset(years=1)\n        \n        # 获取该公司的违法日期列表\n        v_dates = violation_dict.get(company, [])\n        if not v_dates:\n            return True\n        \n        # 执行二分查找\n        left = bisect_left(v_dates, start_date)\n        right = bisect_right(v_dates, current_date)\n        return not (left < right)  # 存在违法时返回False\n\n    # 计算约束条件标记\n    df['meu_13_2_constraint'] = df.apply(check_constraint, axis=1)\n\n    return df"
+    },
+    {
+      "cu_id": "cu_13_3",
+      "subject": "上市公司",
+      "condition": "实施竞价回购",
+      "constraint": "应当确保回购股份后具备债务履行能力和持续经营能力",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_4",
+      "subject": "上市公司",
+      "condition": "实施竞价回购",
+      "constraint": "应当确保回购股份后股权分布原则上符合上市条件",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_5",
+      "subject": "上市公司",
+      "condition": "实施竞价回购，拟通过回购股份终止其股票上市交易",
+      "constraint": "应当符合相关规定",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_6",
+      "subject": "上市公司",
+      "condition": "实施竞价回购",
+      "constraint": "应当符合中国证监会规定的其他条件",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_7",
+      "subject": "上市公司",
+      "condition": "因触及本指引第四条规定条件而启动回购并减少注册资本",
+      "constraint": "不适用股票上市已满6个月的要求",
+      "contextual_info": "",
+      "relation": [
+        "exclude"
+      ],
+      "target": [
+        "cu_13_1"
+      ],
+      "code": "import pandas as pd\n\ndef check_meu_13_7(df):\n    '''\n    合规性检查函数，用于验证MEU_13_7条款的遵守情况\n    subject: 上市公司\n    condition: 因触及本指引第四条规定条件而启动回购并减少注册资本\n    constraint: 不适用股票上市已满6个月的要求\n    '''\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_13_7_subject'] = True  # 所有公司均为上市公司\n    df['meu_13_7_condition'] = False\n    df['meu_13_7_constraint'] = None\n\n    # 计算第四条的三个可验证条件\n    # 条件1：收盘价低于每股净资产\n    condition1 = df['收盘价'] < df['每股净资产']\n\n    # 条件2：20交易日累计跌幅20%（按公司分组计算）\n    df['20d_prior_close'] = df.groupby('公司简称')['收盘价'].shift(20)\n    return_20_day = (df['收盘价'] - df['20d_prior_close']) / df['20d_prior_close']\n    condition2 = return_20_day <= -0.2\n\n    # 条件3：低于一年最高价50%（滚动250交易日窗口）\n    df['1y_high'] = df.groupby('公司简称')['收盘价'].transform(\n        lambda x: x.rolling(250, min_periods=1).max()\n    )\n    condition3 = df['收盘价'] < (df['1y_high'] * 0.5)\n\n    # 合并有效约束条件（前三项）\n    valid_condition = condition1 | condition2 | condition3\n    \n    # 记录condition\n    df['meu_13_7_condition'] = valid_condition\n\n    # 约束验证：默认为None\n    df['meu_13_7_constraint'] = None\n\n    return df"
+    },
+    {
+      "cu_id": "cu_14_1",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "允许使用以下资金回购股份：（一）自有资金；（二）发行优先股、债券募集的资金；（三）发行普通股取得的超募资金、募投项目节余资金和已依法变更为永久补充流动资金的募集资金；（四）金融机构借款；（五）其他合法资金",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_15_1",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当合理安排回购规模和回购资金",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_15_2",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "在回购股份方案中明确拟回购股份数量或者资金总额的上下限，且下限不得低于上限的50%",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_15_2(df):\n    '''\n    检查MEU_15_2合规性:\n    subject: 上市公司\n    condition: NaN(无条件触发)\n    constraint: 回购方案需明确数量/资金上下限且下限≥50%上限\n    '''\n    df = df.copy()\n\n    # 初始化合规标记列\n    df['meu_15_2_subject'] = True  # 所有公司均为上市公司\n    df['meu_15_2_condition'] = True  # 无条件要求，全部视为满足\n    df['meu_15_2_constraint'] = None  # 初始化为None\n\n    # 标记constraint合规性\n    # 不存在回购方案的行自动合规\n    df.loc[~df['存在回购方案'], 'meu_15_2_constraint'] = True\n\n    # 处理存在回购方案的行\n    mask = df['存在回购方案']\n    \n    # 计算数量合规性 (下限≥50%上限)\n    quantity_valid = (\n        df['回购数量下限'] >= df['回购数量上限'] * 0.5\n    ) & (\n        df['回购数量上限'].notna()  # 确保已明确设置数量上限\n    )\n    \n    # 计算资金合规性 (下限≥50%上限)\n    funds_valid = (\n        df['资金总额下限'] >= df['资金总额上限'] * 0.5\n    ) & (\n        df['资金总额上限'].notna()  # 确保已明确设置资金上限\n    )\n    \n    # 合并合规条件\n    combined_valid = quantity_valid | funds_valid\n    \n    # 更新约束\n    df.loc[mask, 'meu_15_2_constraint'] = combined_valid[mask]\n\n    return df"
+    },
+    {
+      "cu_id": "cu_16_1",
+      "subject": "上市公司",
+      "condition": "进行竞价回购",
+      "constraint": "价格上限原则上不应高于董事会审议通过回购股份决议前30个交易日（不含停牌日）交易均价的200%",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_75_1"
+      ],
+      "code": "def check_meu_16_1(df):\n    '''\n    检查MEU_16_1合规性：\n    - subject: 上市公司（所有行自动满足）\n    - condition: 存在竞价回购行为\n    - constraint: 申报价格不超过决议前30日交易均价200%\n    注：每日股价以收盘价为准, 不考虑日内价格变化; 不存在这30个交易日无法取到的情况\n    '''\n    df = df.copy()\n    \n    # 1. 标记subject（所有公司均为上市公司）\n    df['meu_16_1_subject'] = True\n    \n    # 2. 标记condition\n    df['meu_16_1_condition'] = df['存在回购方案'] & (df['回购方式'] == '竞价回购')\n    \n    # 3. 初始化constraint\n    df['meu_16_1_constraint'] = None\n    \n    # 处理constraint部分\n    for company_name, company_group in df.groupby('公司简称'):\n        # 筛选该公司的回购方案（存在回购方案且是竞价回购）\n        repo_mask = company_group['存在回购方案']\n        repo_cases = company_group[repo_mask]\n        d_list = repo_cases['决议通过日'].unique()\n        \n        for d in d_list:\n            # 获取该决议通过日的实施开始日和截止日\n            case_rows = repo_cases[repo_cases['决议通过日'] == d]\n            if len(case_rows) == 0:\n                continue\n            case_row = case_rows.iloc[0]\n            s = case_row['决议通过日']\n            e = case_row['实施截止日']\n            \n            # 计算前30日的收盘价均價\n            before_d_mask = company_group['日期'] < d\n            before_d = company_group[before_d_mask]\n            \n            last_30 = before_d.tail(30)\n            avg_price = last_30['收盘价'].mean()\n            ref_price = avg_price * 2\n            \n            # 找到实施期间内的行\n            mask_period = (company_group['日期'] >= s) & (company_group['日期'] <= e)\n            mask_to_check = mask_period & company_group['申报价格'].notna()\n            indices = company_group[mask_to_check].index\n            \n            # 更新constraint列\n            if not indices.empty:\n                constraint_values = company_group.loc[indices, '申报价格'] <= ref_price\n                df.loc[indices, 'meu_16_1_constraint'] = constraint_values\n                df.loc[indices, '违规价格上限'] = ref_price\n                df.loc[indices, '前30日收盘价均值'] = avg_price \n    \n    return df"
+    },
+    {
+      "cu_id": "cu_16_2",
+      "subject": "上市公司",
+      "condition": "确有必要超过董事会审议通过回购股份决议前30个交易日（不含停牌日）交易均价的200%",
+      "constraint": "应当在回购股份方案中充分说明其合理性",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_75_1"
+      ]
+    },
+    {
+      "cu_id": "cu_17_1",
+      "subject": "上市公司",
+      "condition": "自可能对本公司证券及其衍生品种交易价格产生重大影响的重大事项发生之日至依法披露之日",
+      "constraint": "不得回购股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_17_2",
+      "subject": "上市公司",
+      "condition": "自可能对本公司证券及其衍生品种交易价格产生重大影响的重大事项在决策过程中至依法披露之日",
+      "constraint": "不得回购股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_17_3",
+      "subject": "上市公司",
+      "condition": "存在中国证监会规定的其他情形",
+      "constraint": "不得回购股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_17_4",
+      "subject": "上市公司",
+      "condition": "存在本所规定的其他情形",
+      "constraint": "不得回购股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_17_5",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需而实施股份回购并减少注册资本",
+      "constraint": "不适用前款规定",
+      "contextual_info": "",
+      "relation": [
+        "exclude"
+      ],
+      "target": [
+        "cu_17_1;cu_17_2;cu_17_3;cu_17_4"
+      ]
+    },
+    {
+      "cu_id": "cu_18_1",
+      "subject": "上市公司",
+      "condition": "发出回购股份的申报指令",
+      "constraint": "应当合理发出",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_18_2",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "应当防范发生内幕交易及其他不公平交易行为",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_18_3",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "不得利用回购股份操纵本公司股价或者进行利益输送",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_18_4",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "不得实施异常交易行为",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_18_5",
+      "subject": "上市公司",
+      "condition": "回购股份",
+      "constraint": "不得影响股票交易正常秩序",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_18_6",
+      "subject": "上市公司",
+      "condition": "在本所开盘集合竞价、收盘集合竞价及股票价格无涨跌幅限制的交易日内",
+      "constraint": "不得进行股份回购的申报",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_18_7",
+      "subject": "上市公司",
+      "condition": "进行股份回购的申报",
+      "constraint": "申报价格不得为公司股票当日交易涨幅限制的价格",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_18_7(df):\n    '''\n    验证MEU_18_7合规性:\n    - subject: 上市公司\n    - condition: 进行股份回购的申报\n    - constraint: 申报价格不得为当日涨跌幅限制价格\n    '''\n    df = df.copy()\n\n    # 初始化合规性标记列\n    df['meu_18_7_subject'] = True  # 所有公司均为上市公司\n    df['meu_18_7_condition'] = False\n    df['meu_18_7_constraint'] = None\n\n    # 1. 标记condition条件满足情况\n    # 条件成立需同时满足：存在回购方案且存在申报价格\n    has_repo_plan = df['存在回购方案']\n    has_declaration = df['申报价格'].notna()\n    valid_condition = has_repo_plan & has_declaration & (df['日期'] == df['决议通过日'])\n    df.loc[valid_condition, 'meu_18_7_condition'] = True\n\n    # 2. 标记constraint约束满足情况\n    # 计算前收盘价的±10%涨跌幅限制\n    prev_close = df['前收盘价']\n    upper_limit = prev_close * 1.1\n    lower_limit = prev_close * 0.9\n    \n    # 获取申报价格并判断是否触及限制\n    declared_price = df['申报价格']\n    bigger_than_upper = declared_price >= upper_limit\n    smaller_than_lower = declared_price <= lower_limit\n    \n    # 有效约束条件：存在申报价格且不触及涨跌停价\n    valid_constraint = has_declaration & ~(bigger_than_upper | smaller_than_lower)\n    df['meu_18_7_constraint'] = valid_constraint\n\n    return df"
+    },
+    {
+      "cu_id": "cu_19_1",
+      "subject": "上市公司",
+      "condition": "实施竞价回购",
+      "constraint": "实施期限不超过12个月",
+      "contextual_info": "自董事会或股东大会（如须）审议通过回购股份决议之日起算",
+      "code": "import pandas as pd\n\ndef check_meu_19_1(df):\n    '''\n    合规性检查函数，用于验证MEU_19_1条款的遵守情况：\n    - subject: 上市公司（所有行自动满足）\n    - condition: 实施竞价回购（需同时满足存在回购方案和回购方式为竞价）\n    - constraint: 实施期限不超过12个月（基于决议通过日与实施截止日的时间差）\n    '''\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_19_1_subject'] = True  # 所有公司均为上市公司\n    df['meu_19_1_condition'] = False\n    df['meu_19_1_constraint'] = None\n\n    # 标记条件：存在回购方案且回购方式为竞价\n    is_auction_repurchase = (\n        df['存在回购方案'] & \n        (df['回购方式'] == '竞价回购')\n    )\n    df.loc[is_auction_repurchase, 'meu_19_1_condition'] = True\n\n    # 标记约束：实施期限不超过12个月\n    # 仅当日期字段有效时进行计算\n    valid_dates = df['决议通过日'].notna() & df['实施截止日'].notna()\n    date_mask = valid_dates & (\n        df['实施截止日'] <= df['决议通过日'] + pd.DateOffset(months=12)\n    )\n    df.loc[date_mask, 'meu_19_1_constraint'] = True\n    df.loc[~date_mask, 'meu_19_1_constraint'] = False\n\n    return df"
+    },
+    {
+      "cu_id": "cu_19_2",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需回购股份的，实施竞价回购",
+      "constraint": "回购实施期限自股东大会或者董事会审议通过最终回购股份方案之日起不超过3个月",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_19_2(df):\n    '''\n    检查MEU_19_2合规性：\n    \"subject\": \"上市公司\", \n    \"condition\": \"因维护公司价值及股东权益所必需回购股份的，实施竞价回购\", \n    \"constraint\": \"回购实施期限自股东大会或者董事会审议通过最终回购股份方案之日起不超过3个月\", \n    \"contextual_info\": NaN\n    '''\n    df = df.copy()\n\n    # 初始化合规标记列\n    df['meu_19_2_subject'] = True  # 所有公司都是上市公司\n    df['meu_19_2_condition'] = False\n    df['meu_19_2_constraint'] = None\n\n    # 1. 标记condition合规性\n    # 条件需同时满足：存在回购方案、维护公司价值用途、竞价回购方式\n    condition_mask = (\n        df['存在回购方案'] &\n        (df['回购用途'] == '维护公司价值及股东权益所必需') &\n        (df['回购方式'] == '竞价回购')\n    )\n    df.loc[condition_mask, 'meu_19_2_condition'] = True\n\n    # 2. 标记constraint合规性\n    # 约束需同时满足：存在回购方案、实施截止日在决议通过日3个月内\n    constraint_mask = df['存在回购方案'].copy()\n    # 计算自然日边界（使用pd.DateOffset处理月份差异）\n    deadline = df['决议通过日'] + pd.DateOffset(months=3)\n    # 处理NaT避免类型错误（当存在回购方案为False时自动返回False）\n    constraint_mask = constraint_mask & (df['实施截止日'] <= deadline)\n    df.loc[constraint_mask, 'meu_19_2_constraint'] = True\n    df.loc[~constraint_mask, 'meu_19_2_constraint'] = False\n\n    return df"
+    },
+    {
+      "cu_id": "cu_20_1",
+      "subject": "控股股东 | 实际控制人 | 董监高 | 回购股份提议人",
+      "condition": "上市公司因维护公司价值及股东权益所必需回购股份且处于公司首次披露回购股份事项之日起至发布回购结果公告期间",
+      "constraint": "不得直接或间接减持本公司股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_21_1",
+      "subject": "上市公司",
+      "condition": "回购股份用于减少公司注册资本",
+      "constraint": "应当自回购之日起10日内注销",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_21_2",
+      "subject": "上市公司",
+      "condition": "回购股份用于股权激励或者员工持股计划、转换上市公司发行的可转换为股票的公司债券、维护公司价值及股东权益所必需的",
+      "constraint": "合计持有的本公司股份数不得超过本公司已发行股份总额的10%",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_21_2(df):\n    '''\n    验证MEU_21_2合规性:\n    \"subject\": \"上市公司\",\n    \"condition\": \"回购股份用于股权激励或者员工持股计划、转换上市公司发行的可转换为股票的公司债券、维护公司价值及股东权益所必需的\",\n    \"constraint\": \"合计持有的本公司股份数不得超过本公司已发行股份总额的10%\",\n    \"contextual_info\": NaN\n    '''\n\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_21_2_subject'] = True  # 所有记录主体均为上市公司\n    df['meu_21_2_condition'] = False\n    df['meu_21_2_constraint'] = None\n\n    # 1. 标记condition有效性\n    valid_uses = [\n        '股权激励或者员工持股计划',\n        '转换上市公司发行的可转换为股票的公司债券',\n        '维护公司价值及股东权益所必需'\n    ]\n    df['meu_21_2_condition'] = df['回购用途'].isin(valid_uses)\n\n    # 2. 标记constraint有效性\n    # 处理空值并计算回购比例\n    total_shares = df['总股本'].replace(0, pd.NA)  # 防止除零错误\n    cumulative_repo = df['累计回购数量'].fillna(0)\n    repo_ratio = cumulative_repo / total_shares\n    \n    # 约束条件判断\n    valid_constraint = (repo_ratio <= 0.1) & (~total_shares.isna())\n    df['meu_21_2_constraint'] = valid_constraint.astype(bool)\n\n    return df"
+    },
+    {
+      "cu_id": "cu_21_3",
+      "subject": "上市公司",
+      "condition": "回购股份用于股权激励或者员工持股计划、转换上市公司发行的可转换为股票的公司债券、维护公司价值及股东权益所必需的",
+      "constraint": "应当在发布回购结果公告后3年内转让或者注销",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_22_1",
+      "subject": "根据相关法律法规及公司章程等享有提案权的提议人",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "可以向上市公司董事会提议回购股份"
+    },
+    {
+      "cu_id": "cu_22_2",
+      "subject": "提议人",
+      "condition": "提议回购股份",
+      "constraint": "提议应当明确具体，符合公司实际情况，具有合理性和可行性，并至少包括本指引第二十三条第（二）至第（四）项规定的内容",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_23"
+      ]
+    },
+    {
+      "cu_id": "cu_22_3",
+      "subject": "提议人",
+      "condition": "拟提议公司因本指引第四条情形回购股份",
+      "constraint": "应当在相关事实发生之日起10个交易日内向上市公司董事会提出",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_4"
+      ]
+    },
+    {
+      "cu_id": "cu_23_1",
+      "subject": "上市公司",
+      "condition": "收到符合规定的回购股份提议",
+      "constraint": "应当尽快召开董事会审议，并将回购股份提议与董事会决议同时公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_2",
+      "subject": "上市公司",
+      "condition": "发布回购股份提议公告",
+      "constraint": "公告内容应当包括提议人基本情况及提议时间",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_3",
+      "subject": "上市公司",
+      "condition": "发布回购股份提议公告",
+      "constraint": "公告内容应当包括提议人提议回购股份的原因和目的",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_4",
+      "subject": "上市公司",
+      "condition": "发布回购股份提议公告",
+      "constraint": "公告内容应当包括提议人提议回购股份的种类、用途、方式、价格区间、数量、占公司总股本的比例及拟用于回购的资金总额；回购股份数量、资金总额至少有一项明确上下限，且下限不得低于上限的50%",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_5",
+      "subject": "上市公司",
+      "condition": "发布回购股份提议公告",
+      "constraint": "公告内容应当包括提议人在提前6个月内买卖本公司股份的情况，以及提议人在回购期间的增减持计划",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_6",
+      "subject": "上市公司",
+      "condition": "发布回购股份提议公告且存在适用情形",
+      "constraint": "公告内容应当包括提议人将推动公司尽快召开董事会或者股东大会审议回购股份事项，并对公司回购股份议案投赞成票的承诺",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_7",
+      "subject": "上市公司",
+      "condition": "发布回购股份提议公告",
+      "constraint": "公告内容应当包括公司董事会对回购股份提议的意见及后续安排",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_8",
+      "subject": "上市公司",
+      "condition": "发布回购股份提议公告",
+      "constraint": "公告内容应当包括中国证监会和本所认为需要披露的其他内容",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_24_1",
+      "subject": "上市公司董事会",
+      "condition": "审议通过回购股份决议后",
+      "constraint": "应当及时披露董事会决议和回购股份方案",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_24_2",
+      "subject": "上市公司",
+      "condition": "回购方案须经股东大会决议",
+      "constraint": "应当及时发布召开股东大会的通知",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_24_3",
+      "subject": "上市公司",
+      "condition": "回购方案须经股东大会决议",
+      "constraint": "在股东大会审议回购方案时对披露事项进行逐项表决",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_24_4",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需而回购且发生本指引第四条规定的相关事实",
+      "constraint": "应当自相关事实发生之日起10个交易日内召开董事会审议回购股份方案",
+      "contextual_info": "应当在本指引第四条规定的相关事实发生之日起10个交易日内或者收到该情形回购股份提议之日起10个交易日内，召开董事会审议回购股份方案。",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_4"
+      ]
+    },
+    {
+      "cu_id": "cu_25_1",
+      "subject": "上市公司",
+      "condition": "回购股份用于股权激励或者员工持股计划，用于转换上市公司发行的可转换为股票的公司债券，或因维护公司价值及股东权益所必需而回购的",
+      "constraint": "可以依照公司章程的规定或者股东大会的授权",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_25_2",
+      "subject": "上市公司",
+      "condition": "回购股份用于股权激励或者员工持股计划，用于转换上市公司发行的可转换为股票的公司债券，或因维护公司价值及股东权益所必需而回购的",
+      "constraint": "回购股份方案经三分之二以上董事出席的董事会决议通过后无须再提交股东大会审议",
+      "contextual_info": "",
+      "relation": [
+        "exclude"
+      ],
+      "target": [
+        "cu_25_3"
+      ]
+    },
+    {
+      "cu_id": "cu_25_3",
+      "subject": "上市公司",
+      "condition": "回购股份以减少注册资本等情形",
+      "constraint": "回购股份方案应当提交股东大会审议，并经出席会议的股东所持表决权的三分之二以上通过",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_1",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含回购股份的目的",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_2",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含回购股份的方式",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_3",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含回购股份的价格或价格区间、定价原则及合理性",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_4",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含拟回购股份的数量及占总股本的比例",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_5",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案且拟用于多种用途",
+      "constraint": "应当分别载明不同用途所对应的拟回购股份数量、比例及资金金额",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_6",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含拟用于回购的资金总额及资金来源",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_7",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含回购股份的实施期限",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_8",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含预计回购后公司股本及股权结构的变动情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_9",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含管理层关于本次回购对公司财务状况、债务履行能力、持续经营能力及维持上市地位等可能产生的影响分析",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_10",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含董监高、控股股东、实际控制人在董事会决议前6个月是否存在买卖股票及内幕交易、市场操纵的说明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_11",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含提议人信息、提议前6个月买卖股份情况及是否存在内幕交易、操纵市场的说明(如适用)",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_12",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含回购股份的后续处理",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_13",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含防范侵害债权人利益的相关安排",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_14",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "公司最近12个月是否存在受到中国证监会及其派出机构行政处罚或刑事处罚情形的说明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_15",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案，且公司最近12个月存在受到中国证监会及其派出机构行政处罚或刑事处罚的情况",
+      "constraint": "回购股份方案应当包含上述事件是否影响公司的债务履行能力和持续经营能力的说明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_16",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含公司控股股东、实际控制人最近12个月内是否存在因交易违规受到本所限制证券账户交易的自律监管措施或纪律处分，因内幕交易或操纵市场受到中国证监会及其派出机构行政处罚或刑事处罚情形的说明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_17",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当披露应当披露向董监高、持股5%以上的股东、控股股东、实际控制人、回购股份提议人问询其回购期间减持计划的具体情况，包括拟卖出股份的数量和减持原因等，并披露相关股东的回复",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_18",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案，向董监高、持股5%以上的股东、控股股东、实际控制人、回购股份提议人问询其回购期间减持计划的具体情况，包括拟卖出股份的数量和减持原因等，相关股东未回复的",
+      "constraint": "应当在公告中提示可能存在的减持风险",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_19",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含股东大会对董事会办理回购事宜的具体授权(如有)",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_20",
+      "subject": "上市公司",
+      "condition": "制定回购股份方案",
+      "constraint": "应当包含中国证监会和本所要求披露的其他内容",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_21",
+      "subject": "公司控股股东 | 实际控制人",
+      "condition": "存在第十四项所述情形",
+      "constraint": "应当出具不利用回购股份从事违法违规活动的公开承诺并与方案同时披露",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_14"
+      ]
+    },
+    {
+      "cu_id": "cu_26_22",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需回购且拟用于减少注册资本或者出售",
+      "constraint": "应当在回购方案中明确披露拟用于减少注册资本或者出售的回购股份数量或者资金总额",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_23",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需回购股份，回购方案中未明确披露用于出售的",
+      "constraint": "已回购股份不得出售",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_27_1",
+      "subject": "上市公司",
+      "condition": "披露回购股份方案后5个交易日内",
+      "constraint": "应当披露董事会公告回购股份决议的前1个交易日登记在册的前10大股东和前10大无限售条件股东的名称及持股数量、比例",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_27_2",
+      "subject": "上市公司",
+      "condition": "回购方案需经股东大会决议且在股东大会召开前3个交易日",
+      "constraint": "应当披露股东大会的股权登记日登记在册的前10大股东和前10大无限售条件股东的名称及持股数量、比例",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_28_1",
+      "subject": "上市公司",
+      "condition": "回购股份情况复杂且涉及重大问题专业判断",
+      "constraint": "",
+      "contextual_info": "可以聘请财务顾问、律师事务所、会计师事务所等证券服务机构就相关问题出具专业意见"
+    },
+    {
+      "cu_id": "cu_28_2",
+      "subject": "上市公司",
+      "condition": "回购股份情况复杂且涉及重大问题专业判断且聘请了财务顾问、律师事务所、会计师事务所等证券服务机构就相关问题出具专业意见",
+      "constraint": "应当与回购股份方案一并披露",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_29_1",
+      "subject": "上市公司",
+      "condition": "存在本指引第二十六条第一款第十三、十四项情形",
+      "constraint": "应当聘请律师事务所就相关违法违规情形是否已消除、是否影响公司的债务履行能力和持续经营能力等出具法律意见书，并与回购股份方案同时披露",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_26"
+      ]
+    },
+    {
+      "cu_id": "cu_30_1",
+      "subject": "上市公司",
+      "condition": "董事会或者股东大会审议通过最终回购股份方案、开立回购专户后",
+      "constraint": "按照中国证监会和本所有关规定及时披露回购报告书",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_30_2",
+      "subject": "上市公司",
+      "condition": "董事会或者股东大会审议通过最终回购股份方案、开立回购专户后，按照中国证监会和本所有关规定及时披露回购报告书",
+      "constraint": "回购报告书至少应当包括本指引第二十六条回购股份方案所列事项及其他应说明的事项",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_26"
+      ]
+    },
+    {
+      "cu_id": "cu_31_1",
+      "subject": "上市公司",
+      "condition": "董事会审议通过回购股份决议披露之日起的10个交易日内",
+      "constraint": "应当通过内幕信息知情人报备系统或本所规定的其他方式向本所提交内幕信息知情人登记表（附件1）",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "附件1"
+      ]
+    },
+    {
+      "cu_id": "cu_31_2",
+      "subject": "上市公司",
+      "condition": "董事会审议通过回购股份决议披露之日起的10个交易日内",
+      "constraint": "应当通过内幕信息知情人报备系统或本所规定的其他方式向本所提交相关人员买卖上市公司股票的自查报告（自查期间为董事会决议公告披露之日的前6个月）",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_31_3",
+      "subject": "上市公司",
+      "condition": "董事会审议通过回购股份决议披露之日起的10个交易日内",
+      "constraint": "应当通过内幕信息知情人报备系统或本所规定的其他方式向本所提交进程备忘录",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_31_4",
+      "subject": "上市公司",
+      "condition": "董事会审议通过回购股份决议披露之日起的10个交易日内",
+      "constraint": "应当通过内幕信息知情人报备系统或本所规定的其他方式向本所提交全体董事对内幕信息知情人报备文件真实性、准确性和完整性的承诺书",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_31_5",
+      "subject": "上市公司",
+      "condition": "董事会审议通过回购股份决议披露之日起的10个交易日内",
+      "constraint": "应当通过内幕信息知情人报备系统或本所规定的其他方式向本所提交本所要求的其他文件",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_32_1",
+      "subject": "本所",
+      "condition": "在自查期间核查发现上市公司股票交易情况存在明显异常",
+      "constraint": "",
+      "contextual_info": "可以要求上市公司提交股票交易情况说明"
+    },
+    {
+      "cu_id": "cu_32_2",
+      "subject": "上市公司",
+      "condition": "被交易所自查期间核查发现股票交易情况存在明显异常，决定继续推进本次股份回购事项",
+      "constraint": "应当采取措施消除相关事项对上市公司的影响",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_32_3",
+      "subject": "上市公司",
+      "condition": "被交易所自查期间核查发现股票交易情况存在明显异常，决定继续推进本次股份回购事项，采取措施消除相关事项对上市公司的影响且无法完全消除的",
+      "constraint": "应当就股票交易存在明显异常，可能被中国证监会立案调查或司法机关立案侦查，而导致本次股份回购事项出现终止情形披露特别风险提示公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_32_4",
+      "subject": "上市公司聘请的律师事务所",
+      "condition": "上市公司被交易所自查期间核查发现股票交易情况存在明显异常，决定继续推进本次股份回购事项，采取措施消除相关事项对上市公司的影响且无法完全消除的",
+      "constraint": "应当对公司股票交易情况是否涉嫌内幕交易、是否会影响本次股份回购发表明确意见",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_32_5",
+      "subject": "上市公司",
+      "condition": "被交易所自查期间核查发现股票交易情况存在明显异常，自主决定终止本次股份回购事项",
+      "constraint": "应当按照本指引第三十七条要求履行相关程序",
+      "contextual_info": "",
+      "relation": [
+        "should_include"
+      ],
+      "target": [
+        "Law_37"
+      ]
+    },
+    {
+      "cu_id": "cu_32_6",
+      "subject": "上市公司",
+      "condition": "被交易所自查期间核查发现股票交易情况存在明显异常，自主决定终止本次股份回购事项",
+      "constraint": "应当及时发布终止公告披露终止原因",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_33_1",
+      "subject": "上市公司",
+      "condition": "回购股份以减少注册资本且股东大会审议通过回购股份决议",
+      "constraint": "按照《公司法》相关规定通知债权人",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "《公司法》"
+      ]
+    },
+    {
+      "cu_id": "cu_33_2",
+      "subject": "上市公司",
+      "condition": "回购股份以减少注册资本且股东大会审议通过回购股份决议",
+      "constraint": "及时披露通知情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_34_1",
+      "subject": "上市公司",
+      "condition": "在董事会或股东大会（如须）审议通过回购股份方案后",
+      "constraint": "按照中国结算有关规定申请开立回购专户",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_34_2",
+      "subject": "上市公司",
+      "condition": "在董事会或股东大会（如须）审议通过回购股份方案后",
+      "constraint": "按照回购股份方案开始实施回购",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_35_1",
+      "subject": "上市公司",
+      "condition": "首次回购股份事实发生后",
+      "constraint": "应当在次1个交易日内披露回购进展情况公告，公告应当包括公告前已回购股份数量、占总股本及拟回购总数量的比例、回购的最高价和最低价、已支付的总金额等",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_35_2",
+      "subject": "上市公司",
+      "condition": "已回购股份占上市公司总股本的比例每增加1%的事实发生",
+      "constraint": "应当在事实发生之日起3个交易日内披露回购进展情况公告，公告应当包括公告前已回购股份数量、占总股本及拟回购总数量的比例、回购的最高价和最低价、已支付的总金额等",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_35_3",
+      "subject": "上市公司",
+      "condition": "每个月的前3个交易日内",
+      "constraint": "应当披露截至上月末的回购进展情况公告，公告应当包括公告前已回购股份数量、占总股本及拟回购总数量的比例、回购的最高价和最低价、已支付的总金额等",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_35_4",
+      "subject": "上市公司",
+      "condition": "公告期间",
+      "constraint": "",
+      "contextual_info": "无须停止回购行为"
+    },
+    {
+      "cu_id": "cu_36_1",
+      "subject": "上市公司",
+      "condition": "回购实施期限过半仍未实施回购",
+      "constraint": "应当及时披露未能实施回购的原因和后续回购安排，说明是否存在利用回购信息进行市场操纵或内幕交易的情形",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_37_1",
+      "subject": "上市公司",
+      "condition": "回购股份方案披露后",
+      "constraint": "无充分正当事由不得变更或者终止",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_37_2",
+      "subject": "上市公司",
+      "condition": "因公司生产经营、财务状况发生重大变化，回购方案已无法履行或者履行将不利于维护上市公司权益等原因，确需变更或者终止的",
+      "constraint": "应当按照公司制定本次回购股份方案的决策程序提交董事会或者股东大会审议并及时披露变更或终止回购股份方案的公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_37_3",
+      "subject": "上市公司",
+      "condition": "披露变更或终止回购股份方案的公告",
+      "constraint": "公告内容应当包括拟变更或者终止的原因",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_37_4",
+      "subject": "上市公司",
+      "condition": "披露变更或终止回购股份方案的公告",
+      "constraint": "公告内容应当包括变更的事项内容",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_37_5",
+      "subject": "上市公司",
+      "condition": "披露变更或终止回购股份方案的公告",
+      "constraint": "公告内容应当说明变更或者终止的合理性、必要性和可行性",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_37_6",
+      "subject": "上市公司",
+      "condition": "披露变更或终止回购股份方案的公告",
+      "constraint": "公告内容应当说明可能对公司债务履行能力、持续经营能力及股东权益等产生的影响",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_37_7",
+      "subject": "上市公司",
+      "condition": "回购股份用于注销",
+      "constraint": "不得变更为其他用途",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_38_1",
+      "subject": "上市公司",
+      "condition": "回购期间实施权益分派",
+      "constraint": "应当对回购价格上限、回购规模等进行相应调整",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_38_2",
+      "subject": "上市公司",
+      "condition": "实施实施权益分派并披露权益分派实施公告",
+      "constraint": "应当同步披露因权益分派导致调整回购方案的提示性公告，说明因公司权益分派对回购方案进行调整的具体安排，包括调整后的价格上限、回购规模等",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_39_1",
+      "subject": "上市公司",
+      "condition": "回购实施期限届满",
+      "constraint": "应当停止回购行为并披露回购结果公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_39_2",
+      "subject": "上市公司",
+      "condition": "回购方案已实施完毕",
+      "constraint": "应当停止回购行为并披露回购结果公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_39_3",
+      "subject": "上市公司",
+      "condition": "披露回购结果公告",
+      "constraint": "公告应当包含实际回购股份的价格、数量、比例、使用资金总额，并与回购股份方案相应内容进行对照，存在差异的应当作出解释",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_39_4",
+      "subject": "上市公司",
+      "condition": "披露回购结果公告",
+      "constraint": "公告应当说明本次回购股份对公司的影响",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_39_5",
+      "subject": "上市公司",
+      "condition": "披露回购结果公告",
+      "constraint": "公告应当包含董监高、持股5%以上的股东、控股股东、实际控制人、回购股份提议人在首次披露回购股份事项之日至披露回购股份结果公告前1日买卖本公司股票的情况及理由",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_40_1",
+      "subject": "上市公司",
+      "condition": "回购实施期限届满且未实施回购或回购规模未达下限的",
+      "constraint": "应当及时披露，说明未实施回购或回购规模未达下限的原因、公司为实施回购所做的准备工作情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_40_2",
+      "subject": "上市公司",
+      "condition": "回购实施期限届满且未实施回购或回购规模未达下限的",
+      "constraint": "应当及时披露，说明是否存在虚假信息披露、利用回购信息进行市场操纵或内幕交易的情形",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_41_1",
+      "subject": "上市公司",
+      "condition": "回购股份以减少注册资本且已披露回购结果公告",
+      "constraint": "应当及时向本所提交回购股份注销申请（附件2）及中国结算出具的回购专户持股数量查询证明",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "附件2"
+      ]
+    },
+    {
+      "cu_id": "cu_41_2",
+      "subject": "上市公司",
+      "condition": "回购股份以减少注册资本，披露回购结果公告后向本所提交回购股份注销申请（附件2），以及中国结算出具的回购专户持股数量查询证明，经本所审查无异议",
+      "constraint": "应当按照中国结算有关规定办理股份注销手续",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "附件2"
+      ]
+    },
+    {
+      "cu_id": "cu_41_3",
+      "subject": "上市公司",
+      "condition": "回购股份以减少注册资本，披露回购结果公告后向本所提交回购股份注销申请（附件2），以及中国结算出具的回购专户持股数量查询证明，经本所审查无异议，按照中国结算有关规定办理股份注销手续，股份注销完成后",
+      "constraint": "应当及时披露回购股份注销完成暨股份变动公告",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "附件2"
+      ]
+    },
+    {
+      "cu_id": "cu_41_4",
+      "subject": "上市公司",
+      "condition": "回购股份以减少注册资本，披露回购结果公告后向本所提交回购股份注销申请（附件2），以及中国结算出具的回购专户持股数量查询证明，经本所审查无异议，按照中国结算有关规定办理股份注销手续，股份注销完成后",
+      "constraint": "应当按有关规定办理工商变更登记手续",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "附件2"
+      ]
+    },
+    {
+      "cu_id": "cu_42_1",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需而回购股份的",
+      "constraint": "可以按照本章规定在发布回购结果公告12个月后采用集中竞价交易方式出售",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_42_2",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需而回购股份的，处于上市公司定期报告、业绩预告或者业绩快报披露前10个交易日内（因特殊原因推迟定期报告披露日期的，自原预约公告日前10个交易日起算，至披露前1个交易日）",
+      "constraint": "不得采用集中竞价交易方式出售股份",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_42_2(df):\n    '''\n    合规性检查函数，对应MEU_42_2条款：\n    - subject: 上市公司\n    - condition: 因维护公司价值及股东权益回购股份且处于定期报告披露前10个交易日内\n    - constraint: 不得采用集中竞价交易方式出售股份\n    '''\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_42_2_subject'] = True  # 所有公司均为上市公司\n    df['meu_42_2_condition'] = False\n    df['meu_42_2_constraint'] = None\n\n    # 1. 计算时间窗口条件（condition的时间部分）\n    # 获取所有定期报告类公告日期\n    report_mask = df['公告类型'].isin(['季报', '年报', '半年报'])\n    valid_announcements = df[report_mask][['公司简称', '公告日期']].drop_duplicates()\n    \n    # 计算时间窗口标记列\n    df['_temp_in_window'] = False\n    \n    # 为每个公司生成交易日历\n    for company in valid_announcements['公司简称'].unique():\n        # 获取该公司的所有交易日\n        company_trading_days = df[df['公司简称'] == company]['日期'].unique()\n        company_trading_days = pd.Series(company_trading_days).sort_values().reset_index(drop=True)\n        \n        # 获取该公司的所有公告日期\n        company_announcements = valid_announcements[valid_announcements['公司简称'] == company]['公告日期']\n        \n        for ann_date in company_announcements:\n            # 找到公告日期在交易日序列中的位置（或最接近的交易日前的位置）\n            # 如果公告日期不是交易日，找到它之后的第一个交易日\n            if ann_date in company_trading_days.values:\n                ann_idx = company_trading_days[company_trading_days == ann_date].index[0]\n            else:\n                # 找到第一个大于公告日期的交易日\n                later_days = company_trading_days[company_trading_days > ann_date]\n                if len(later_days) > 0:\n                    ann_idx = company_trading_days[company_trading_days == later_days.iloc[0]].index[0]\n                else:\n                    # 如果没有之后的交易日，跳过这个公告\n                    continue\n                \n            # 计算前10个交易日的起始位置\n            start_idx = max(0, ann_idx - 10)\n            start_date = company_trading_days[start_idx]\n            \n            # 标记窗口期内的日期\n            window_mask = (df['公司简称'] == company) & \\\n                          (df['日期'] >= start_date) & \\\n                          (df['日期'] < ann_date)\n            df.loc[window_mask, '_temp_in_window'] = True\n\n    # 2. 标记condition条件\n    usage_condition = df['回购用途'] == '维护公司价值及股东权益所必需'\n    df['meu_42_2_condition'] = usage_condition & df['_temp_in_window']\n\n    # 3. 标记constraint条件（独立检查）\n    # 集中竞价出售包含计划申报和实际成交两种情形\n    sell_condition = df['存在出售计划'] | (df['当日出售数量'] > 0)\n    df['meu_42_2_constraint'] = ~sell_condition\n\n    # 清理临时列\n    df.drop(columns=['_temp_in_window'], inplace=True, errors='ignore')\n\n    return df"
+    },
+    {
+      "cu_id": "cu_42_3",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需而回购股份的，自可能对本公司证券及其衍生品种交易价格产生重大影响的重大事项发生之日或者在决策过程中至依法披露之日",
+      "constraint": "不得采用集中竞价交易方式出售股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_42_4",
+      "subject": "上市公司",
+      "condition": "因维护公司价值及股东权益所必需而回购股份的，处于中国证监会和本所规定的其他情形",
+      "constraint": "不得采用集中竞价交易方式出售股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_43_1",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份",
+      "constraint": "所得资金应当用于主营业务",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_43_2",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份",
+      "constraint": "所得资金不得通过直接或者间接安排用于新股配售、申购，或者用于股票及其衍生品种、可转换公司债券等交易",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_1",
+      "subject": "上市公司",
+      "condition": "拟采用集中竞价交易方式出售已回购股份",
+      "constraint": "应当经董事会审议通过",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_2",
+      "subject": "上市公司",
+      "condition": "拟采用集中竞价交易方式出售已回购股份",
+      "constraint": "应当在首次卖出股份的15个交易日前披露出售计划",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_3",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告出售回购股份的董事会决议",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_4",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告出售的原因、目的和方式",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_5",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告拟出售的数量及占总股本的比例",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_6",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告出售的价格区间",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_7",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告出售的实施期限（每次披露的出售时间区间不得超过6个月）",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_8",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告出售所得资金的用途及具体使用安排",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_9",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告预计出售完成后公司股权结构的变动情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_10",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告管理层关于本次出售已回购股份对公司经营、财务及未来发展影响等情况的说明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_11",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告上市公司董监高、持股5%以上的股东、控股股东、实际控制人、回购股份提议人在董事会作出出售决议前6个月内买卖本公司股份的情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_44_12",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且已通过董事会审议且披露出售计划",
+      "constraint": "出售计划应当至少公告中国证监会和本所要求披露的其他内容",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_45_1",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份",
+      "constraint": "不得在本所开盘集合竞价、收盘前半小时内及股票价格无涨跌幅限制的交易日内进行出售的申报",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_45_2",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份",
+      "constraint": "申报价格不得为公司股票当日交易跌幅限制的价格",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_45_2(df):\n    '''\n    检查MEU_45_2的合规性：\n    subject: 上市公司（所有行均为上市公司）\n    condition: 采用集中竞价交易方式出售已回购股份（存在出售计划即视为满足）\n    constraint: 申报价格必须在涨跌停区间内（前收盘价的90%~110%之间，含边界）\n                合规：价格在区间内（False）\n                违规：价格超出区间（True）\n    '''\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_45_2_subject'] = True  # 所有公司均为上市公司\n    df['meu_45_2_condition'] = df['存在出售计划']  # 本案例中'出售'均为集中竞价方式\n    df['meu_45_2_constraint'] = None \n\n    # 计算涨跌停价（前收盘价的±10%）\n    df['_temp_lower_limit'] = df['前收盘价'] * 0.9  # 跌停价\n    df['_temp_upper_limit'] = df['前收盘价'] * 1.1  # 涨停价\n    \n    # 判断申报价格是否在涨跌停区间内（含边界）\n    within_limit = (df['申报价格'] >= df['_temp_lower_limit']) & (df['申报价格'] <= df['_temp_upper_limit'])\n    \n    # 标记约束有效性（True=违规，False=合规）\n    df['meu_45_2_constraint'] = ~within_limit  # 超出区间则违规（True）\n\n    # 清理临时列\n    df.drop(columns=['_temp_lower_limit', '_temp_upper_limit'], inplace=True)\n\n    return df"
+    },
+    {
+      "cu_id": "cu_45_3",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份且每日出售数量超过10万股",
+      "constraint": "每日出售的数量不得超过出售计划披露日前20个交易日日均盘中成交量的25%",
+      "contextual_info": "",
+      "code": "def check_meu_45_3(df):\n    '''\n    检查MEU_45_3合规性：\n    subject: 上市公司\n    condition: 采用集中竞价交易方式出售已回购股份且每日出售数量超过10万股\n    constraint: 每日出售数量不得超过出售计划披露日前20个交易日日均盘中成交量的25%\n    '''\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_45_3_subject'] = True  # 所有记录均为上市公司\n    df['meu_45_3_condition'] = False\n    df['meu_45_3_constraint'] = None \n\n    # 1. 标记condition条件\n    # 条件需同时满足：存在出售计划、采用集中竞价方式（隐含在存在出售计划中）、当日出售数量>10万\n    valid_condition = df['存在出售计划'] & (df['当日出售数量'] > 100000)\n    df.loc[valid_condition, 'meu_45_3_condition'] = True\n\n    # 2. 标记constraint约束（独立检查所有记录）\n    # 预处理：计算每个公司每个披露日前20日成交量均值\n    # 假设存在'成交量'列且'公告日期'为计划披露日\n    # 按公司分组处理\n    for company in df['公司简称'].unique():\n        company_df = df[df['公司简称'] == company].sort_values('日期')\n        \n        # 创建日期索引\n        company_dates = company_df.set_index('日期')\n        \n        # 遍历该公司的所有记录\n        for idx, row in company_df.iterrows():\n            disclosure_date = row['出售计划披露日']\n            if pd.isnull(disclosure_date):\n                continue\n            \n            # 获取披露日前20个交易日的成交量\n            # 筛选披露日前的交易日\n            prior_dates = company_dates[company_dates.index < disclosure_date].index\n            \n            # 获取最近的20个交易日\n            last_20_trading_days = prior_dates[-20:]\n            prior_sessions = company_dates.loc[last_20_trading_days]\n            \n            avg_volume = prior_sessions['成交量'].mean()\n            threshold = avg_volume * 0.25\n            current_sell = row['当日出售数量']\n            \n            # 标记约束满足情况\n            if current_sell <= threshold:\n                df.loc[idx, 'meu_45_3_constraint'] = True\n            else:\n                df.loc[idx, 'meu_45_3_constraint'] = False\n\n\n    return df"
+    },
+    {
+      "cu_id": "cu_45_4",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份",
+      "constraint": "在任意连续90日内，出售股份的总数不得超过公司股份总数的1%",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_45_4(df):\n    '''\n    检查MEU_45_4合规性：\n    - subject: 上市公司（所有行自动满足）\n    - condition: 存在集中竞价出售已回购股份计划\n    - constraint: 90交易日累计出售量≤总股本1%\n    '''\n    df = df.copy()\n\n    # 初始化合规标记列\n    df['meu_45_4_subject'] = True  # 所有公司均为上市公司\n    df['meu_45_4_condition'] = df['存在出售计划'].astype(bool)  # 存在出售计划即满足条件\n    df['meu_45_4_constraint'] = None  # 初始化为空值\n\n    # 按公司分组计算滚动累计出售量\n    df.sort_values(['公司简称', '日期'], inplace=True)\n    df['90交易日累计出售'] = df.groupby('公司简称')['当日出售数量'].transform(\n        lambda x: x.rolling(90, min_periods=1).sum()\n    )\n\n    # 计算总股本1%阈值并验证约束\n    threshold = df['总股本'] * 0.01\n    df['meu_45_4_constraint'] = df['90交易日累计出售'] <= threshold\n\n    # 清理中间列\n    df.drop(columns=['90交易日累计出售'], inplace=True)\n\n    return df"
+    },
+    {
+      "cu_id": "cu_45_5",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份",
+      "constraint": "应当遵守中国证监会和本所规定的其他要求",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_46_1",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份期间",
+      "constraint": "应当在各定期报告中披露出售进展情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_46_2",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份期间且首次出售已回购股份事实发生后",
+      "constraint": "应当在次1个交易日内披露出售进展情况公告",
+      "contextual_info": "",
+      "code": "\ndef check_meu_46_2(df):\n    '''\n    检查MEU_46_2合规性：\n    \"subject\": \"上市公司\", \n    \"condition\": \"采用集中竞价交易方式出售已回购股份期间\", \n    \"constraint\": \"首次出售已回购股份事实发生后应当在次1个交易日内披露出售进展情况公告\"\n    '''\n    df = df.copy()\n    \n    # 1. 初始化标记列\n    df['meu_46_2_subject'] = True  # 所有公司都是上市公司\n    df['meu_46_2_condition'] = False\n    df['meu_46_2_constraint'] = None\n    \n    # 2. 标记condition\n    # 筛选存在集中竞价出售计划的行\n    has_plan = df['存在出售计划'] == True\n    df['meu_46_2_condition'] = has_plan\n    \n    # 3 判断constraint\n    # 3.1 判断是否在出售期间内\n    mask_date_range = (df['日期'] >= df['出售开始日']) & (df['日期'] <= df['出售截止日'])\n    \n    # 3.2 准确计算首次出售日期（修复分组索引问题）\n    group_cols = ['公司简称', '出售开始日', '出售截止日']\n    \n    # 生成分组首次出售日期（保持分组键结构）\n    first_sale_df = (\n        df.groupby(group_cols)\n        .apply(\n            lambda g: g.loc[\n                (g['日期'] >= g.name[1]) & \n                (g['日期'] <= g.name[2]) & \n                (g['当日出售数量'] > 0), '日期'\n            ].min() \n            if any(\n                (g['日期'] >= g.name[1]) & \n                (g['日期'] <= g.name[2]) & \n                (g['当日出售数量'] > 0)\n            )\n            else pd.NaT\n        )\n        .reset_index(name='首次出售日期')\n    )\n    \n    # 合并回原始数据（避免索引错位）\n    df = df.merge(first_sale_df, on=group_cols, how='left')\n    \n    # 3.3 判断当前日期是否在首次出售之后\n    mask_first_sale = (df['日期'] >= df['首次出售日期']) & (~df['首次出售日期'].isna())\n    \n    # 需要检查的条件\n    valid_condition = has_plan & mask_date_range & mask_first_sale\n    \n    \n    # 条件3：标记constraint（修复次交易日合并问题）\n    # 步骤1：获取每个首次出售的次交易日\n    df_sorted = df.sort_values(['公司简称', '日期'])\n    df_sorted['次交易日'] = df_sorted.groupby('公司简称')['日期'].shift(-1)\n    \n    # 步骤2：建立精确映射关系（包含首次出售日期）\n    first_sales = (\n        df[valid_condition]\n        .groupby(group_cols)[['首次出售日期']]  # 仅按分组键聚合\n        .first()\n        .reset_index()\n    )\n    first_sales = first_sales.merge(\n        df_sorted[['公司简称', '日期', '次交易日']],\n        left_on=['公司简称', '首次出售日期'],\n        right_on=['公司简称', '日期'],\n        how='left'\n    ).drop(columns=['日期']).rename(columns={'次交易日': '要求披露日'})  # 清理冗余列\n    \n    # 步骤3：多键合并避免数据污染\n    df = df.merge(\n        first_sales,\n        on=group_cols + ['首次出售日期'],\n        how='left'\n    )\n    \n    # 步骤4：验证次日披露情况\n    valid_constraint = (\n    (df['首次出售日期'].notna()) &\n    (df['存在出售计划'] == True)\n)\n    df.loc[valid_constraint, 'meu_46_2_constraint'] = df[df['日期'] == df['要求披露日']]['披露出售进展']\n    \n    return df\n    "
+    },
+    {
+      "cu_id": "cu_46_3",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份期间且出售已回购股份占上市公司总股本的比例增加1%",
+      "constraint": "应当在事实发生之日起3个交易日内披露出售进展情况公告",
+      "contextual_info": "",
+      "code": "import pandas as pd\nimport numpy as np\n\ndef check_meu_46_3(df):\n    '''\n    检查MEU_46_3合规性：\n    subject: 上市公司（所有行自动满足）\n    condition: 采用集中竞价交易方式出售已回购股份期间\n    constraint: 出售已回购股份占上市公司总股本的比例每增加1%, 应当在事实发生之日起3个交易日内披露出售进展情况公告\n    '''\n    df = df.copy()\n    \n    # 初始化标记列\n    df['meu_46_3_subject'] = True\n    df['meu_46_3_condition'] = False\n    df['meu_46_3_constraint'] = None\n\n    # 标记存在出售计划的期间\n    in_selling_period = df['存在出售计划']\n    df.loc[in_selling_period, 'meu_46_3_condition'] = True\n\n    violations = set()\n\n    # 按公司分组处理\n    grouped = df.groupby('公司简称')\n    for company, group in grouped:\n        # 筛选存在出售计划的期间\n        selling_group = group[group['存在出售计划']]\n        if selling_group.empty:\n            continue\n        \n        sell_dates = set(selling_group['日期'])\n        company_dates = group['日期'].tolist()\n        \n        # 计算前一日累计比例\n        selling_group = selling_group.copy()\n        selling_group['累计出售比例_prev'] = selling_group['累计出售比例'].shift(1)\n        \n        for idx, row in selling_group.iterrows():\n            curr = row['累计出售比例']\n            prev = row['累计出售比例_prev']\n            \n            if pd.isna(prev):\n                continue\n            \n            # 计算跨过的整数百分点\n            prev_pct = prev * 100\n            curr_pct = curr * 100\n            min_k = int(np.floor(prev_pct)) + 1\n            max_k = int(np.floor(curr_pct))\n            \n            if min_k > max_k:\n                continue\n            \n            # 生成所有触发k值\n            for k in range(min_k, max_k + 1):\n                trigger_date = row['日期']\n                \n                # 获取窗口期\n                try:\n                    trigger_idx = company_dates.index(trigger_date)\n                except ValueError:\n                    continue\n                \n                window_dates = company_dates[trigger_idx+1 : trigger_idx+4]\n                \n                # 检查窗口期披露情况\n                window_mask = group['日期'].isin(window_dates)\n                has_disclosure = group.loc[window_mask, '披露出售进展'].any()\n                \n                # 记录未披露的出售期间日期\n                if not has_disclosure:\n                    for date in window_dates:\n                        if date in sell_dates:\n                            violations.add((company, date))\n\n    # 应用违规标记\n    df.loc[in_selling_period, 'meu_46_3_constraint'] = True\n    violation_mask = df.apply(lambda r: (r['公司简称'], r['日期']) in violations, axis=1)\n    df.loc[violation_mask & in_selling_period, 'meu_46_3_constraint'] = False\n\n    # 清理中间列\n    df.drop(columns=['累计出售比例_prev'], inplace=True, errors='ignore')\n\n    return df"
+    },
+    {
+      "cu_id": "cu_46_4",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份期间且每个月的前3个交易日内",
+      "constraint": "应当披露截至上月末的出售进展情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_46_5",
+      "subject": "上市公司",
+      "condition": "发布出售进展情况公告",
+      "constraint": "应当包括公告前已出售股份数量",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_46_6",
+      "subject": "上市公司",
+      "condition": "发布出售进展情况公告",
+      "constraint": "应当包括公告前已出售股份占公司总股本的比例",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_46_7",
+      "subject": "上市公司",
+      "condition": "发布出售进展情况公告",
+      "constraint": "应当包括出售最高价和最低价",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_46_8",
+      "subject": "上市公司",
+      "condition": "发布出售进展情况公告",
+      "constraint": "应当包括出售均价",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_46_9",
+      "subject": "上市公司",
+      "condition": "发布出售进展情况公告",
+      "constraint": "应当包括出售所得资金总额",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_46_10",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "公告期间无须停止出售行为"
+    },
+    {
+      "cu_id": "cu_47_1",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份，且出售期限届满",
+      "constraint": "应当停止出售行为，并在2个交易日内发布出售结果公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_47_2",
+      "subject": "上市公司",
+      "condition": "采用集中竞价交易方式出售已回购股份，且出售计划已实施完毕",
+      "constraint": "应当停止出售行为，并在2个交易日内发布出售结果公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_47_3",
+      "subject": "上市公司",
+      "condition": "发布出售结果公告时",
+      "constraint": "应当将实际出售已回购股份数量、比例、出售所得资金总额与出售计划相应内容进行对照",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_47_4",
+      "subject": "上市公司",
+      "condition": "发布出售结果公告时",
+      "constraint": "应当就出售执行情况与出售计划的差异作出解释",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_47_5",
+      "subject": "上市公司",
+      "condition": "发布出售结果公告时",
+      "constraint": "应当就本次出售对公司的影响作出说明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_48_1",
+      "subject": "上市公司",
+      "condition": "回购股份用于股权激励、员工持股计划、转换上市公司发行的可转换为股票的公司债券、维护公司价值及股东权益所必需的",
+      "constraint": "所回购股份的后续处理应当按照《公司法》、中国证监会和本所的相关规定办理",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "《公司法》; 中国证监会和本所的相关规定"
+      ]
+    },
+    {
+      "cu_id": "cu_48_2",
+      "subject": "上市公司",
+      "condition": "回购股份用于股权激励、员工持股计划、转换上市公司发行的可转换为股票的公司债券、维护公司价值及股东权益所必需的，已回购股份未按照披露的用途处理且按照《公司法》规定持有期限届满",
+      "constraint": "应当予以注销",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "《公司法》"
+      ]
+    },
+    {
+      "cu_id": "cu_48_3",
+      "subject": "上市公司",
+      "condition": "回购股份用于股权激励、员工持股计划、转换上市公司发行的可转换为股票的公司债券、维护公司价值及股东权益所必需的，已回购股份未按照披露的用途处理且按照《公司法》规定持有期限届满",
+      "constraint": "相关事项按照本指引第二十五条、第三十三条和第四十一条的规定办理",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "《公司法》"
+      ]
+    },
+    {
+      "cu_id": "cu_49_1",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "应当公平对待公司所有股东",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_50_1",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "应当符合本指引第十三条至第十五条、第十七条、第十九条、第二十条的规定",
+      "contextual_info": "",
+      "relation": [
+        "should_include"
+      ],
+      "target": [
+        "Law_13; Law_14; Law_15; Law_17; Law_19; Law_20"
+      ]
+    },
+    {
+      "cu_id": "cu_50_2",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "要约期限不得少于30个自然日",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_50_2(df):\n    '''\n    检查MEU_50_2合规性：\n    \"subject\": \"上市公司\",\n    \"condition\": \"实施要约回购\",\n    \"constraint\": \"要约期限不得少于30个自然日\",\n    \"contextual_info\": NaN\n    '''\n    df = df.copy()\n    \n    # 初始化合规标记列\n    df['meu_50_2_subject'] = True  # 所有公司均为上市公司\n    df['meu_50_2_condition'] = False\n    df['meu_50_2_constraint'] = None\n    \n    # 标记valid的condition（存在回购方案且为要约回购）\n    is_passed = df['存在回购方案']& (df['日期'] == df['决议通过日'])\n    is_tender_offer = df['回购方式'] == '要约回购'\n    df.loc[is_passed & is_tender_offer, 'meu_50_2_condition'] = True\n    \n    # 标记valid的constraint（自然日计算要约期限）\n    # 处理NaN并转换为布尔值\n    valid_constraint = (df['要约期限'] >= 30).fillna(False)\n    df['meu_50_2_constraint'] = valid_constraint.astype(bool)\n    \n    return df"
+    },
+    {
+      "cu_id": "cu_50_3",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "要约期限不得超过60个自然日",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_50_3(df):\n    '''\n    合规性检查函数，对应MEU_50_3条款：\n    - subject: 上市公司\n    - condition: 实施要约回购\n    - constraint: 要约期限不得超过60个自然日\n    '''\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_50_3_subject'] = True  # 所有公司均为上市公司\n    df['meu_50_3_condition'] = False\n    df['meu_50_3_constraint'] = None\n\n    # 标记条件：实施要约回购（存在有效回购方案且回购方式为要约回购）\n    valid_condition = (df['存在回购方案']) & (df['回购方式'] == '要约回购') & (df['日期'] == df['决议通过日'])\n    df.loc[valid_condition, 'meu_50_3_condition'] = True\n\n    # 标记约束：计算自然日差（需处理空值）\n    has_valid_dates = df['实施开始日'].notna() & df['实施截止日'].notna()\n    duration = (df['实施截止日'] - df['实施开始日']).dt.days\n    valid_constraint = (duration <= 60) & has_valid_dates\n    \n    # 更新约束标记（独立检查，不依赖subject和condition）\n    df.loc[valid_constraint, 'meu_50_3_constraint'] = True\n    df.loc[~valid_constraint, 'meu_50_3_constraint'] = False\n\n    return df"
+    },
+    {
+      "cu_id": "cu_51_1",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "要约回购应当以固定价格实施",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_51_2",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "要约价格不得低于回购股份方案公告日前30个交易日该种股票每日加权平均价的算术平均值",
+      "contextual_info": "",
+      "code": "import pandas as pd\n\ndef check_meu_51_2(df):\n    '''\n    验证MEU_51_2合规性：\n    - subject: 上市公司（所有行自动满足）\n    - condition: 实施要约回购（回购方式为要约回购）\n    - constraint: 要约价格不低于方案公告日前30个交易日平均价\n    '''\n    df = df.copy()\n\n    # 初始化标记列\n    df['meu_51_2_subject'] = True  # 所有公司均为上市公司\n    df['meu_51_2_condition'] = df['回购方式'] == '要约回购'\n    df['meu_51_2_constraint'] = None  # 默认设为False\n\n    # 计算前30日交易均价逻辑（以成交量加权）\n    # 步骤1：提取有效决议记录\n    valid_resolutions = df[['公司简称', '决议通过日']].dropna().drop_duplicates()\n    \n    # 步骤2：计算每个决议对应的30日成交量加权均价\n    avg_price_list = []\n    for _, row in valid_resolutions.iterrows():\n        company = row['公司简称']\n        resolution_date = row['决议通过日']\n        \n        # 获取决议日前30个交易日数据\n        company_data = df[(df['公司简称'] == company) & (df['日期'] < resolution_date)]\n        sorted_dates = company_data.sort_values('日期', ascending=False)\n        last_30 = sorted_dates.head(30)\n        \n        if len(last_30) == 30:\n            # 计算成交量加权平均收盘价\n            weighted_avg = (last_30['收盘价'] * last_30['成交量']).sum() / last_30['成交量'].sum()\n            avg_price_list.append({\n                '公司简称': company,\n                '决议通过日': resolution_date,\n                'ref_price': weighted_avg\n            })\n\n    # 步骤3：合并参考价格到主表\n    if avg_price_list:\n        ref_df = pd.DataFrame(avg_price_list)\n        df = df.merge(ref_df, on=['公司简称', '决议通过日'], how='left')\n        \n        # 步骤4：执行价格比较（仅当要约价格和参考价均存在时）\n        price_mask = df['要约价格'].notna() & df['ref_price'].notna()\n        df.loc[price_mask, 'meu_51_2_constraint'] = df.loc[price_mask, '要约价格'] >= df.loc[price_mask, 'ref_price']\n        \n        # 清理临时列\n        df.drop(columns=['ref_price'], inplace=True)\n\n    return df"
+    },
+    {
+      "cu_id": "cu_52_1",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "应当按照本指引第二十二条至第三十三条的规定履行相关程序及信息披露义务",
+      "contextual_info": "",
+      "relation": [
+        "should_include"
+      ],
+      "target": [
+        "Law_22;Law_23;Law_24;Law_25;Law_26;Law_27;Law_28;Law_29;Law_30;Law_31;Law_32;Law_33"
+      ]
+    },
+    {
+      "cu_id": "cu_52_2",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "回购股份方案应当载明本指引第二十六条规定的内容",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_26"
+      ]
+    },
+    {
+      "cu_id": "cu_52_3",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "回购股份方案应当包括股东同意接受回购要约（以下简称预受要约）及撤回预受要约的方式和程序",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_52_4",
+      "subject": "上市公司",
+      "condition": "实施要约回购",
+      "constraint": "回购股份方案应当包括股东委托办理要约回购中相关股份预受、撤回、结算、过户登记等事宜的证券公司名称及其联系方式",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_53_1",
+      "subject": "上市公司",
+      "condition": "披露回购报告书的同时",
+      "constraint": "按照中国结算有关规定申请开立回购专户",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_53_2",
+      "subject": "上市公司",
+      "condition": "披露回购报告书的同时，按照中国结算有关规定申请开立回购专户",
+      "constraint": "将回购所需资金全额存放于证券登记结算机构指定的银行账户",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_53_3",
+      "subject": "上市公司",
+      "condition": "披露回购报告书的同时，按照中国结算有关规定申请开立回购专户并将回购所需资金全额存放于证券登记结算机构指定的银行账户",
+      "constraint": "取得履约保证证明文件",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_1",
+      "subject": "上市公司",
+      "condition": "在开立回购专户并办理履约保证手续后，向本所申请要约回购证券代码",
+      "constraint": "提交要约回购证券代码申请表（附件3）",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "附件3"
+      ]
+    },
+    {
+      "cu_id": "cu_54_2",
+      "subject": "上市公司",
+      "condition": "在开立回购专户并办理履约保证手续后，向本所申请要约回购证券代码",
+      "constraint": "提交履约保证证明文件",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_3",
+      "subject": "上市公司",
+      "condition": "在开立回购专户并办理履约保证手续后，向本所申请要约回购证券代码",
+      "constraint": "提交国家相关部门的批准文件及律师出具的专项核查意见（如有）",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_4",
+      "subject": "上市公司",
+      "condition": "在开立回购专户并办理履约保证手续后，向本所申请要约回购证券代码",
+      "constraint": "提交本所要求提交的其他文件",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_5",
+      "subject": "本所",
+      "condition": "对回购要约代码申请文件进行确认后",
+      "constraint": "向上市公司发放回购要约代码",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_6",
+      "subject": "上市公司",
+      "condition": "取得回购要约代码的次一交易日",
+      "constraint": "披露要约回购开始接受申报的提示性公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_7",
+      "subject": "上市公司",
+      "condition": "在取得回购要约代码的次一交易日披露要约回购开始接受申报的提示性公告时",
+      "constraint": "公告内容应包括回购要约代码",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_8",
+      "subject": "上市公司",
+      "condition": "在取得回购要约代码的次一交易日披露要约回购开始接受申报的提示性公告时",
+      "constraint": "公告内容应包括预定回购股份数量及比例",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_9",
+      "subject": "上市公司",
+      "condition": "在取得回购要约代码的次一交易日披露要约回购开始接受申报的提示性公告时",
+      "constraint": "公告内容应包括回购价格",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_54_10",
+      "subject": "上市公司",
+      "condition": "在取得回购要约代码的次一交易日披露要约回购开始接受申报的提示性公告时",
+      "constraint": "公告内容应包括要约期限",
+      "contextual_info": "要约期限自公告披露的次一交易日起算。"
+    },
+    {
+      "cu_id": "cu_55_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "要约回购证券代码首三位代码为841",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_56_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "要约回购证券简称首四位字符从公司股票证券简称中选取，后四位字符为'回购'",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_57_1",
+      "subject": "上市公司",
+      "condition": "要约期限内",
+      "constraint": "应当至少披露3次投资者可预受要约的提示性公告，内容应包括预定回购股份数量及比例、回购价格、要约期限等，提示投资者关注回购机会",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_57_2",
+      "subject": "上市公司",
+      "condition": "要约期限内",
+      "constraint": "应当根据要约期限合理安排提示性公告的披露时点",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_58_1",
+      "subject": "上市公司",
+      "condition": "预受要约和撤回预受要约、股份的临时保管和解除临时保管及其他相关事项",
+      "constraint": "参照本所、中国结算关于要约收购的相关规定办理",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "本所、中国结算关于要约收购的相关规定"
+      ]
+    },
+    {
+      "cu_id": "cu_59_1",
+      "subject": "上市公司",
+      "condition": "要约期限内的每个交易日开市前",
+      "constraint": "应将中国结算确认有效的已预受要约的股份数量等情况在本所网站披露，披露内容包含附件4、附件5要求的信息",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_60_1",
+      "subject": "上市公司",
+      "condition": "要约期限开始前且符合本指引第三十七条回购股份方案变更或者终止情形",
+      "constraint": "",
+      "contextual_info": "可以按照本指引规定变更或者终止回购股份方案"
+    },
+    {
+      "cu_id": "cu_60_2",
+      "subject": "上市公司",
+      "condition": "要约期限开始后",
+      "constraint": "不得变更或终止回购股份方案",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_61_1",
+      "subject": "上市公司",
+      "condition": "回购期间实施权益分派",
+      "constraint": "应当按照本指引第三十八条的规定对回购要约的价格、数量等进行相应调整",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_38"
+      ]
+    },
+    {
+      "cu_id": "cu_61_2",
+      "subject": "股东",
+      "condition": "回购要约调整后且拟将权益分派的全部或部分新增股份售予上市公司",
+      "constraint": "应当另行申报预受要约",
+      "contextual_info": "原预受要约申报继续有效"
+    },
+    {
+      "cu_id": "cu_62_1",
+      "subject": "上市公司",
+      "condition": "回购实施期限过半且要约期限仍未开始",
+      "constraint": "应当按照本指引第三十六条的规定履行相关信息披露义务",
+      "contextual_info": "",
+      "relation": [
+        "should_include"
+      ],
+      "target": [
+        "Law_36"
+      ]
+    },
+    {
+      "cu_id": "cu_63_1",
+      "subject": "上市公司",
+      "condition": "要约期限届满",
+      "constraint": "应当及时向中国结算申请查询预受要约结果",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_63_2",
+      "subject": "上市公司",
+      "condition": "要约期限届满，向中国结算申请查询预受要约结果",
+      "constraint": "应当于要约期限届满后的2个交易日内披露查询结果，说明预受要约股份情况、回购价款的缴纳安排等",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_63_3",
+      "subject": "上市公司",
+      "condition": "股东预受要约的股份数量超出预定回购的股份数量",
+      "constraint": "应当按照相同比例回购股东预受的股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_63_4",
+      "subject": "上市公司",
+      "condition": "股东预受要约的股份数量不足预定回购的股份数量",
+      "constraint": "应当全部回购股东预受的股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_64_1",
+      "subject": "上市公司",
+      "condition": "取得缴款证明后的2个交易日内",
+      "constraint": "应当向本所申请划转预受要约股份",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_64_2",
+      "subject": "上市公司",
+      "condition": "申请划转预受要约股份时",
+      "constraint": "应当提交预受要约股份划转申请表（附件6）",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "附件6"
+      ]
+    },
+    {
+      "cu_id": "cu_64_3",
+      "subject": "上市公司",
+      "condition": "申请划转预受要约股份时",
+      "constraint": "应当提交回购价款缴款证明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_64_4",
+      "subject": "上市公司",
+      "condition": "申请划转预受要约股份时",
+      "constraint": "应当提交预受要约股份查询结果",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_64_5",
+      "subject": "上市公司",
+      "condition": "申请划转预受要约股份时",
+      "constraint": "应当提交本所要求提交的其他材料",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_64_6",
+      "subject": "本所",
+      "condition": "确认上市公司提交材料后",
+      "constraint": "应当向中国结算出具预受股份划转确认书",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_65_1",
+      "subject": "上市公司",
+      "condition": "过户登记完成后",
+      "constraint": "应当按照本指引第三十九条的规定披露回购结果公告",
+      "contextual_info": "",
+      "relation": [
+        "should_include"
+      ],
+      "target": [
+        "Law_39"
+      ]
+    },
+    {
+      "cu_id": "cu_66_1",
+      "subject": "上市公司",
+      "condition": "披露回购结果公告后",
+      "constraint": "应当按照本指引相关规定办理后续事宜",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_67_1",
+      "subject": "上市公司",
+      "condition": "存在以下情况：发行股份购买资产、重组上市（涉及股份发行），发行对象对标的资产有业绩承诺，因标的资产未完成业绩承诺，上市公司根据相关回购条款回购发行对象所持股份",
+      "constraint": "可以根据相关回购条款或有关规定向本所申请办理定向回购",
+      "contextual_info": "相关回购条款是指在已公开披露的招股说明书、发行情况报告书、重大资产重组报告书、股权激励计划或其他相关文件中载明的触发回购情形的相关条款。"
+    },
+    {
+      "cu_id": "cu_67_2",
+      "subject": "上市公司",
+      "condition": "存在以下情况：出现股权激励计划规定的应当回购注销限制性股票情形的，上市公司根据相关回购条款或有关规定，回购激励对象所持股份",
+      "constraint": "可以根据相关回购条款或有关规定向本所申请办理定向回购",
+      "contextual_info": "相关回购条款是指在已公开披露的招股说明书、发行情况报告书、重大资产重组报告书、股权激励计划或其他相关文件中载明的触发回购情形的相关条款。"
+    },
+    {
+      "cu_id": "cu_67_3",
+      "subject": "上市公司",
+      "condition": "存在以下情况：法律法规规定或者中国证监会、本所规定的其他情形",
+      "constraint": "可以根据相关回购条款或有关规定向本所申请办理定向回购",
+      "contextual_info": "相关回购条款是指在已公开披露的招股说明书、发行情况报告书、重大资产重组报告书、股权激励计划或其他相关文件中载明的触发回购情形的相关条款。"
+    },
+    {
+      "cu_id": "cu_68_1",
+      "subject": "上市公司",
+      "condition": "因本指引第六十七条第一款第二项规定的情形回购股份",
+      "constraint": "按照《北京证券交易所持续监管指引第3号——股权激励和员工持股计划》和本所其他相关规定办理",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_67"
+      ]
+    },
+    {
+      "cu_id": "cu_68_2",
+      "subject": "上市公司",
+      "condition": "定向回购股份且不属于本指引第六十七条第一款第二项规定的情形",
+      "constraint": "应当履行本指引第二十四条规定的审议程序和信息披露义务",
+      "contextual_info": "",
+      "relation": [
+        "should_include"
+      ],
+      "target": [
+        "Law_24"
+      ]
+    },
+    {
+      "cu_id": "cu_68_3",
+      "subject": "上市公司",
+      "condition": "定向回购股份且不属于本指引第六十七条第一款第二项规定的情形",
+      "constraint": "应当履行本指引第二十五条规定的审议程序和信息披露义务",
+      "contextual_info": "",
+      "relation": [
+        "should_include"
+      ],
+      "target": [
+        "Law_25"
+      ]
+    },
+    {
+      "cu_id": "cu_68_4",
+      "subject": "上市公司",
+      "condition": "定向回购股份且不属于本指引第六十七条第一款第二项规定的情形",
+      "constraint": "应当履行本指引第三十三条规定的审议程序和信息披露义务",
+      "contextual_info": "",
+      "relation": [
+        "should_include"
+      ],
+      "target": [
+        "Law_33"
+      ]
+    },
+    {
+      "cu_id": "cu_69_1",
+      "subject": "上市公司",
+      "condition": "发布定向回购股份方案",
+      "constraint": "应当包括回购的依据、触发回购情形的说明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_69_2",
+      "subject": "上市公司",
+      "condition": "发布定向回购股份方案",
+      "constraint": "应当包括回购对象、价格、数量、占总股本的比例，回购金额及拟用于回购的资金来源",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_69_3",
+      "subject": "上市公司",
+      "condition": "发布定向回购股份方案",
+      "constraint": "应当包括预计回购后公司股本及股权结构的变动情况，及本次回购对公司财务状况、债务履行能力和持续经营能力的影响",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_69_4",
+      "subject": "上市公司",
+      "condition": "发布定向回购股份方案",
+      "constraint": "应当包括防范侵害债权人利益的相关安排",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_69_5",
+      "subject": "上市公司",
+      "condition": "发布定向回购股份方案",
+      "constraint": "应当包括其他应说明的事项",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_70_1",
+      "subject": "律师事务所",
+      "condition": "",
+      "constraint": "应当就回购股份方案是否符合法律、行政法规、本指引的规定出具专业意见",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_70_2",
+      "subject": "律师事务所",
+      "condition": "",
+      "constraint": "应当就股权激励计划的安排出具专业意见",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_70_3",
+      "subject": "上市公司聘请的财务顾问",
+      "condition": "上市公司根据本指引第六十七条第一款第一项规定的情形进行回购的",
+      "constraint": "应一并出具专业意见",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "Law_67"
+      ]
+    },
+    {
+      "cu_id": "cu_71_1",
+      "subject": "上市公司",
+      "condition": "在董事会或股东大会（如须）审议通过定向回购股份方案后",
+      "constraint": "应当向本所提交定向回购股份过户并注销申请（附件7），并按照中国结算有关规定申请开立回购专户",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "附件7"
+      ]
+    },
+    {
+      "cu_id": "cu_71_2",
+      "subject": "上市公司",
+      "condition": "向本所提交定向回购股份过户并注销申请，本所经审查无异议",
+      "constraint": "应当按照中国结算有关规定办理股份过户和注销手续",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_71_3",
+      "subject": "上市公司",
+      "condition": "股份注销完成后",
+      "constraint": "应当及时披露回购股份注销完成暨股份变动公告，并按有关规定办理工商变更登记手续",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_72_1",
+      "subject": "本所",
+      "condition": "发现上市公司及相关信息披露义务人的信息披露文件和申请文件存在问题",
+      "constraint": "",
+      "contextual_info": "可以采用要求说明、公开问询等方式，要求上市公司及相关信息披露义务人、财务顾问和其他证券服务机构等相关主体进行解释、说明、更正和补充"
+    },
+    {
+      "cu_id": "cu_72_2",
+      "subject": "上市公司及相关信息披露义务人 | 财务顾问 | 其他证券服务机构",
+      "condition": "被本所要求进行解释、说明、更正和补充",
+      "constraint": "应当及时回复，并保证回复内容的真实、准确、完整",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_72_3",
+      "subject": "本所",
+      "condition": "上市公司的信息披露文件被本所审查中发现存在问题，被本所要求解释、说明、更正和补充，仍未按照本指引及本所其他相关规定披露回购股份信息，未按照本所要求解释、说明、更正和补充",
+      "constraint": "",
+      "contextual_info": "可以要求其暂停或者终止回购股份活动"
+    },
+    {
+      "cu_id": "cu_72_4",
+      "subject": "本所",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "对回购专户及股份回购行为进行监察"
+    },
+    {
+      "cu_id": "cu_73_1",
+      "subject": "本所",
+      "condition": "上市公司及相关主体在股份回购中存在违规行为",
+      "constraint": "",
+      "contextual_info": "可以视情节轻重对上市公司及相关责任主体采取工作措施、自律监管措施或纪律处分"
+    },
+    {
+      "cu_id": "cu_73_2",
+      "subject": "本所",
+      "condition": "上市公司及相关主体未按照回购报告书实施回购",
+      "constraint": "",
+      "contextual_info": "可以视情节轻重对上市公司及相关责任主体采取工作措施、自律监管措施或纪律处分"
+    },
+    {
+      "cu_id": "cu_73_3",
+      "subject": "本所",
+      "condition": "上市公司及相关主体涉嫌违反法律法规及中国证监会有关规定",
+      "constraint": "",
+      "contextual_info": "将上报中国证监会查处"
+    },
+    {
+      "cu_id": "cu_74_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "计算上市公司已回购股份占公司总股本比例时，总股本取值标准为最近一次公告的总股本数值，且不扣除回购专用账户中的股份"
+    },
+    {
+      "cu_id": "cu_75_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "交易均价的计算方式为：董事会审议通过回购股份决议前30个交易日（不含停牌日）的股票交易总额除以股票交易总量，且不包含大宗交易"
+    },
+    {
+      "cu_id": "cu_76_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "本指引关于控股股东、实际控制人、持股5%以上股东、回购股份提议人、第一大股东的相关规定，适用于其一致行动人。"
+    },
+    {
+      "cu_id": "cu_77_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "本指引由本所负责解释"
+    },
+    {
+      "cu_id": "cu_78_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "本指引自发布之日起施行"
+    }
+  ],
+  "edges": [
+    {
+      "source": "cu_13_7",
+      "target": "cu_13_1",
+      "relation": "exclude"
+    },
+    {
+      "source": "cu_16_1",
+      "target": "cu_75_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_16_2",
+      "target": "cu_75_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_17_5",
+      "target": "cu_17_1;cu_17_2;cu_17_3;cu_17_4",
+      "relation": "exclude"
+    },
+    {
+      "source": "cu_22_2",
+      "target": "Law_23",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_22_3",
+      "target": "Law_4",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_24_4",
+      "target": "Law_4",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_25_2",
+      "target": "cu_25_3",
+      "relation": "exclude"
+    },
+    {
+      "source": "cu_26_21",
+      "target": "Law_14",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_29_1",
+      "target": "Law_26",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_30_2",
+      "target": "Law_26",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_31_1",
+      "target": "附件1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_32_5",
+      "target": "Law_37",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_33_1",
+      "target": "《公司法》",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_41_1",
+      "target": "附件2",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_41_2",
+      "target": "附件2",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_41_3",
+      "target": "附件2",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_41_4",
+      "target": "附件2",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_48_1",
+      "target": "《公司法》; 中国证监会和本所的相关规定",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_48_2",
+      "target": "《公司法》",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_48_3",
+      "target": "Law_25;Law_33;Law_41",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_48_3",
+      "target": "《公司法》",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_50_1",
+      "target": "Law_13; Law_14; Law_15; Law_17; Law_19; Law_20",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_52_1",
+      "target": "Law_22;Law_23;Law_24;Law_25;Law_26;Law_27;Law_28;Law_29;Law_30;Law_31;Law_32;Law_33",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_52_2",
+      "target": "Law_26",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_54_1",
+      "target": "附件3",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_58_1",
+      "target": "本所、中国结算关于要约收购的相关规定",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_61_1",
+      "target": "Law_38",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_62_1",
+      "target": "Law_36",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_64_2",
+      "target": "附件6",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_65_1",
+      "target": "Law_39",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_68_1",
+      "target": "《北京证券交易所持续监管指引第3号——股权激励和员工持股计划》",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_68_1",
+      "target": "Law_67",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_68_2",
+      "target": "Law_67",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_68_2",
+      "target": "Law_24",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_68_3",
+      "target": "Law_67",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_68_3",
+      "target": "Law_25",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_68_4",
+      "target": "Law_67",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_68_4",
+      "target": "Law_33",
+      "relation": "should_include"
+    },
+    {
+      "source": "cu_70_3",
+      "target": "Law_67",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_71_1",
+      "target": "附件7",
+      "relation": "refer_to"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance-to-Code System</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="left-panel">
+            <h1 class="title">Compliance-to-Code System</h1>
+            
+            <div class="control-section">
+                <h2>开始新的合规检查</h2>
+                <div class="form-group">
+                    <label for="regulation-select">法规</label>
+                    <select id="regulation-select" class="styled-select"></select>
+                </div>
+                <div class="form-group">
+                    <label for="company-input">公司名称</label>
+                    <div class="company-input-container">
+                        <input type="text" id="company-input" class="styled-input" placeholder="输入或选择公司名称" list="company-list">
+                        <datalist id="company-list"></datalist>
+                    </div>
+                </div>
+                <!-- 股东输入框，仅在选择regulation_08时显示 -->
+                <div id="shareholder-input-container" class="form-group" style="display: none;">
+                    <label for="shareholder-input">股东</label>
+                    <div class="shareholder-input-container">
+                        <input type="text" id="shareholder-input" class="styled-input" placeholder="输入或选择股东" list="shareholder-list">
+                        <datalist id="shareholder-list"></datalist>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="date-range">日期范围 (可选)</label>
+                    <div class="date-inputs">
+                        <input type="date" id="start-date" placeholder="From">
+                        <span>To</span>
+                        <input type="date" id="end-date" placeholder="To">
+                    </div>
+                </div>
+                <button id="run-check" class="styled-button">开始检查</button>
+            </div>
+            
+            <div class="control-section">
+                <h2>或加载历史结果</h2>
+                <div class="form-group">
+                    <select id="results-select" class="styled-select"></select>
+                </div>
+                <button id="load-result" class="styled-button">加载结果</button>
+            </div>
+
+            <div class="control-section downloads">
+                <h2>下载</h2>
+                <div class="download-buttons">
+                    <button id="download-json" class="download-button">JSON</button>
+                    <button id="download-md" class="download-button">MD</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="graph-section">
+                <div id="echarts-graph" style="width: 100%; height: 100%;"></div>
+                <div id="graph-placeholder" class="graph-placeholder">运行合规检查或加载历史结果</div>
+                <div id="loading" class="loading-spinner" style="display: none;"></div>
+            </div>
+            <div class="md-report-section">
+                <div id="report-placeholder" class="report-placeholder">运行合规检查或加载历史结果</div>
+                <div id="report-loading" class="loading-spinner" style="display: none;"></div>
+                <div id="report-content" class="report-content" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.2.3/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+    <script>
+        // 初始化Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+        
+        // 配置marked选项
+        if (typeof marked !== 'undefined') {
+            // 添加mermaid代码块的自定义渲染
+            const renderer = new marked.Renderer();
+            const originalCodeRenderer = renderer.code.bind(renderer);
+            
+            renderer.code = function(code, language) {
+                if (language === 'mermaid') {
+                    return `<div class="mermaid">${code}</div>`;
+                }
+                return originalCodeRenderer(code, language);
+            };
+            
+            marked.use({
+                renderer: renderer,
+                breaks: true,
+                gfm: true,
+                headerIds: true,
+                mangle: false
+            });
+        }
+    </script>
+    <script id="main-script" src="main.js"></script>
+    <script>
+        document.getElementById('main-script').src = 'main.js?v=' + new Date().getTime();
+    </script>
+</body>
+</html> 

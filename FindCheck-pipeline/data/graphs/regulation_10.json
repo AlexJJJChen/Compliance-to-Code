@@ -1,0 +1,1212 @@
+{
+  "regulation_id": "regulation_10",
+  "regulation_name": "北京证券交易所上市公司持续监管指引第10号——权益分派",
+  "nodes": [
+    {
+      "cu_id": "cu_1_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "为了规范北京证券交易所（以下简称本所）上市公司权益分派相关信息披露及业务办理行为，根据《北京证券交易所上市公司持续监管办法（试行）》《上市公司监管指引第3号——上市公司现金分红》《北京证券交易所股票上市规则（试行）》等有关规定，制定本指引。"
+    },
+    {
+      "cu_id": "cu_2_1",
+      "subject": "本所上市公司",
+      "condition": "实施权益分派",
+      "constraint": "应当适用本指引",
+      "contextual_info": "权益分派包括利润分配以及公积金转增股本；利润分配包括派发现金股利、股票股利"
+    },
+    {
+      "cu_id": "cu_3_1",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当综合考虑所处行业特点、发展阶段、自身经营模式、盈利水平、偿债能力、是否有重大资金支出安排以及投资者回报等因素，科学、审慎决策，合理确定利润分配政策",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_4_1",
+      "subject": "上市公司",
+      "condition": "存在亏损",
+      "constraint": "应当按照《公司法》和公司章程的规定弥补亏损",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "《公司法》;公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_4_2",
+      "subject": "上市公司",
+      "condition": "不存在亏损, 或已按照《公司法》和公司章程规定弥补亏损（如有）",
+      "constraint": "提取法定公积金、任意公积金后，确定股本基数、分配比例、分配总额及其来源。",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "《公司法》"
+      ]
+    },
+    {
+      "cu_id": "cu_4_3",
+      "subject": "上市公司",
+      "condition": "已发行优先股且在存续期内",
+      "constraint": "应当按照《国务院关于开展优先股试点的指导意见》的规定，在完全向优先股股东支付约定的股息之前，不得向普通股股东分配利润。",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "《国务院关于开展优先股试点的指导意见》"
+      ]
+    },
+    {
+      "cu_id": "cu_5_1",
+      "subject": "上市公司",
+      "condition": "在筹划或者讨论利润分配、公积金转增股本方案过程中",
+      "constraint": "应当严格控制内幕信息知情人范围",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_5_2",
+      "subject": "上市公司",
+      "condition": "在筹划或者讨论利润分配、公积金转增股本方案过程中",
+      "constraint": "应当及时登记内幕信息知情人名单及其个人信息",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_5_3",
+      "subject": "上市公司",
+      "condition": "在筹划或者讨论利润分配、公积金转增股本方案过程中",
+      "constraint": "应当采取严格的保密措施，防止方案泄露",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_6_1",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明公司董事会、股东大会对利润分配尤其是现金分红事项的决策程序和机制",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_2",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明对既定利润分配政策尤其是现金分红政策作出调整的具体条件",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_3",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明对既定利润分配政策尤其是现金分红政策作出调整的决策程序和机制",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_4",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明为充分听取中小股东意见所采取的措施",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_5",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明利润分配政策尤其是现金分红政策的具体内容和条件",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_6",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明利润分配的形式",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_7",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明发放股票股利的条件",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_8",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明现金分红相对于股票股利在利润分配方式中的优先顺序",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_9",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当在公司章程中载明年报、中期现金分红最低金额或比例（如有）",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_10",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当严格执行公司章程确定的利润分配政策",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_11",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当严格执行股东大会审议批准的利润分配方案",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_12",
+      "subject": "上市公司",
+      "condition": "确有必要对公司章程确定的利润分配政策进行调整或者变更",
+      "constraint": "应当满足公司章程规定的条件",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_13",
+      "subject": "上市公司",
+      "condition": "确有必要对公司章程确定的利润分配政策进行调整或者变更",
+      "constraint": "应当经过详细论证",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_14",
+      "subject": "上市公司",
+      "condition": "确有必要对公司章程确定的利润分配政策进行调整或者变更",
+      "constraint": "应当履行相应的决策程序",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_6_15",
+      "subject": "上市公司",
+      "condition": "确有必要对公司章程确定的利润分配政策进行调整或者变更",
+      "constraint": "调整方案应当经出席股东大会的股东所持表决权的三分之二以上通过",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_7_1",
+      "subject": "上市公司",
+      "condition": "制定权益分派方案",
+      "constraint": "应当以母公司财务报表中可供分配利润为分配依据应当以母公司财务报表中可供分配利润为分配依据，并应当按照合并报表和母公司报表中可供分配利润孰低的原则确定具体的分配总额和比例，避免出现超额分配情形",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_8_1",
+      "subject": "上市公司",
+      "condition": "进行权益分派",
+      "constraint": "原则上应当依据经审计的财务报告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_8_2",
+      "subject": "上市公司",
+      "condition": "拟实施中期分红且不送红股或者不以公积金转增股本",
+      "constraint": "半年度、季度财务报告可以不经审计，但应当以最近一次经审计的未分配利润为基准，合理考虑当期利润情况",
+      "contextual_info": "",
+      "relation": [
+        "exclude"
+      ],
+      "target": [
+        "cu_8_1"
+      ]
+    },
+    {
+      "cu_id": "cu_8_3",
+      "subject": "上市公司",
+      "condition": "制定权益分派方案时",
+      "constraint": "应当履行公司章程规定的决策程序",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_9_1",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "召开年度股东大会审议年度权益分派方案时，可审议批准下一年中期现金分红的条件、比例上限、金额上限等"
+    },
+    {
+      "cu_id": "cu_9_2",
+      "subject": "年度股东大会",
+      "condition": "审议下一年中期分红",
+      "constraint": "分红上限不应超过相应期间的净利润",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_9_3",
+      "subject": "董事会",
+      "condition": "股东大会已作出决议且符合权益分派规定",
+      "constraint": "应当制定具体的中期分红方案",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_9_4",
+      "subject": "上市公司",
+      "condition": "在审议权益分派方案的股东大会召开前已披露最新一期定期报告",
+      "constraint": "分配金额不应超过最新一期定期报告的可供分配利润",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_1",
+      "subject": "公司",
+      "condition": "",
+      "constraint": "权益分派方案应当包括公司履行的决策程序",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_2",
+      "subject": "公司",
+      "condition": "",
+      "constraint": "权益分派方案应当包括方案的具体内容",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_3",
+      "subject": "公司",
+      "condition": "方案公布后至实施前出现股权激励行权、可转债转股、股份回购等情形时",
+      "constraint": "权益分派方案应当包括出现股权激励行权、可转债转股、股份回购等情形时的方案调整原则",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_4",
+      "subject": "公司",
+      "condition": "",
+      "constraint": "权益分派方案应当说明是否符合公司章程规定的利润分配政策",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_5",
+      "subject": "公司",
+      "condition": "",
+      "constraint": "权益分派方案应当说明是否符合公司已披露的股东回报规划",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_6",
+      "subject": "公司",
+      "condition": "以当年已实施的回购股份金额视同现金分红金额时",
+      "constraint": "权益分派方案应当说明该种方式计入现金分红的金额和比例",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_7",
+      "subject": "公司",
+      "condition": "",
+      "constraint": "权益分派方案应当包括公司采取的保密措施",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_8",
+      "subject": "公司",
+      "condition": "实施送转股时",
+      "constraint": "权益分派方案应当说明将摊薄每股收益的情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_9",
+      "subject": "公司",
+      "condition": "",
+      "constraint": "权益分派方案应当包括分派方案预计实施计划",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_10_10",
+      "subject": "公司",
+      "condition": "",
+      "constraint": "权益分派方案应当包括其他需要说明的事项",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_11_1",
+      "subject": "上市公司",
+      "condition": "具备现金分红条件",
+      "constraint": "应当优先采用现金分红进行利润分配",
+      "contextual_info": "本所鼓励公司在符合利润分配的条件下增加现金分红频次，稳定投资者分红预期"
+    },
+    {
+      "cu_id": "cu_11_3",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应按照法律法规及本所相关规定在年度报告相关部分中详细披露现金分红政策的制定及执行情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_12_1",
+      "subject": "董事会",
+      "condition": "上市公司制定现金分红具体方案时",
+      "constraint": "应当认真研究和论证公司现金分红的时机、条件和最低比例、调整的条件及其决策程序要求等事宜",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_12_2",
+      "subject": "独立董事",
+      "condition": "认为现金分红方案可能损害上市公司或者中小股东权益",
+      "constraint": "",
+      "contextual_info": "有权发表独立意见"
+    },
+    {
+      "cu_id": "cu_12_3",
+      "subject": "董事会",
+      "condition": "对独立董事的意见未采纳或者未完全采纳",
+      "constraint": "应当在董事会决议公告中披露独立董事的意见及未采纳或者未完全采纳的具体理由",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_12_4",
+      "subject": "监事会",
+      "condition": "对董事会执行现金分红政策和股东回报规划以及是否履行相应决策程序和信息披露等情况进行监督",
+      "constraint": "应当进行监督",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_12_5",
+      "subject": "监事会",
+      "condition": "发现董事会存在未严格执行现金分红政策和股东回报规划、未严格履行相应决策程序或者未能真实、准确、完整进行相应信息披露",
+      "constraint": "应当发表明确意见，并督促其及时改正",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_1",
+      "subject": "上市公司",
+      "condition": "合并资产负债表、母公司资产负债表中本年末未分配利润均为正值且报告期内盈利，未进行现金分红或最近三年现金分红总额低于最近三年年均净利润30%",
+      "constraint": "应当在权益分派方案中披露：结合所处行业特点、发展阶段和自身经营模式、盈利水平、偿债能力、资金需求等因素，未进行现金分红或现金分红水平较低原因的说明",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_2",
+      "subject": "上市公司",
+      "condition": "合并资产负债表、母公司资产负债表中本年末未分配利润均为正值且报告期内盈利，未进行现金分红或最近三年现金分红总额低于最近三年年均净利润30%",
+      "constraint": "应当在权益分派方案中披露：留存未分配利润的预计用途以及收益情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_3",
+      "subject": "上市公司",
+      "condition": "合并资产负债表、母公司资产负债表中本年末未分配利润均为正值且报告期内盈利，未进行现金分红或最近三年现金分红总额低于最近三年年均净利润30%",
+      "constraint": "应当在权益分派方案中披露：公司在相应期间是否按照中国证券监督管理委员会相关规定为中小股东参与现金分红决策提供了便利",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_4",
+      "subject": "上市公司",
+      "condition": "合并资产负债表、母公司资产负债表中本年末未分配利润均为正值且报告期内盈利，未进行现金分红或最近三年现金分红总额低于最近三年年均净利润30%",
+      "constraint": "应当在权益分派方案中披露：公司为增强投资者回报水平拟采取的措施",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_5",
+      "subject": "上市公司",
+      "condition": "母公司资产负债表中未分配利润为负值但合并资产负债表中未分配利润为正值",
+      "constraint": "应当在权益分派相关公告中披露上市公司控股子公司向母公司实施利润分配的情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_13_6",
+      "subject": "上市公司",
+      "condition": "母公司资产负债表中未分配利润为负值但合并资产负债表中未分配利润为正值",
+      "constraint": "应当在权益分派相关公告中披露公司为增强投资者回报水平拟采取的措施",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_14_1",
+      "subject": "上市公司",
+      "condition": "合并资产负债表、母公司资产负债表中本年末未分配利润均为正值且报告期内盈利，且最近连续两个会计年度经审计的下列财务报表项目金额合计占总资产的50%以上：交易性金融资产、衍生金融资产（套期保值工具除外）、债权投资、其他债权投资、其他权益工具投资、其他非流动金融资产、其他流动资产（待抵扣增值税、预缴税费、合同取得成本等与经营活动相关的资产除外），且未进行现金分红或者现金分红总额低于当年净利润50%",
+      "constraint": "应当在权益分派方案中结合前述财务报表列报项目的具体情况说明现金分红方案确定的依据及未来增强投资者回报的规划",
+      "contextual_info": "财务报表项目具体范围包含：交易性金融资产、衍生金融资产（套期保值工具除外）、债权投资、其他债权投资、其他权益工具投资、其他非流动金融资产、其他流动资产（待抵扣增值税、预缴税费、合同取得成本等与经营活动相关的资产除外）"
+    },
+    {
+      "cu_id": "cu_15_1",
+      "subject": "上市公司",
+      "condition": "权益分派方案中现金分红的金额达到或者超过当期净利润的100%且达到或者超过当期末未分配利润的50%",
+      "constraint": "应当同时披露是否影响偿债能力、过去十二个月内是否使用过募集资金补充流动资金以及未来十二个月内是否计划使用募集资金补充流动资金等内容",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_15_2",
+      "subject": "上市公司",
+      "condition": "最近一个会计年度的财务会计报告被出具非无保留意见的审计报告或者带与持续经营相关的重大不确定性段落的无保留意见的审计报告，且实施现金分红的",
+      "constraint": "应当根据公司盈利能力、融资能力及其成本、偿债能力及现金流等情况披露现金分红方案的合理性，是否导致公司营运资金不足或者影响公司正常生产经营",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_15_3",
+      "subject": "上市公司",
+      "condition": "报告期末资产负债率超过80%且当期经营活动产生的现金流量净额为负，且现金分红金额超过当期净利润50%的",
+      "constraint": "应当根据公司盈利能力、融资能力及其成本、偿债能力及现金流等情况披露现金分红方案的合理性，是否导致公司营运资金不足或者影响公司正常生产经营",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_16_1",
+      "subject": "上市公司",
+      "condition": "进行送红股与公积金转增股本",
+      "constraint": "应当符合法律法规、《企业会计准则》及公司章程等有关规定",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "《企业会计准则》;公司章程"
+      ]
+    },
+    {
+      "cu_id": "cu_16_2",
+      "subject": "上市公司",
+      "condition": "披露高比例送转股份（高送转）方案",
+      "constraint": "股份送转比例应当与业绩增长相匹配",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_16_3",
+      "subject": "上市公司",
+      "condition": "披露高比例送转股份（高送转）方案",
+      "constraint": "不得利用高送转方案配合股东减持或限售股解禁",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_16_4",
+      "subject": "上市公司",
+      "condition": "披露高比例送转股份（高送转）方案",
+      "constraint": "不得利用高送转方案从事内幕交易、市场操纵等违法违规行为",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_17_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "本指引所称高送转，是指公司每十股送红股与公积金转增股本，合计达到或者超过五股"
+    },
+    {
+      "cu_id": "cu_18_1",
+      "subject": "上市公司",
+      "condition": "披露高送转方案且最近两年同期净利润持续增长",
+      "constraint": "每股送转股比例不得高于上市公司最近两年同期净利润的复合增长率",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_31_2;cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_18_2",
+      "subject": "上市公司",
+      "condition": "披露高送转方案且在报告期内实施再融资、并购重组等导致净资产有较大变化",
+      "constraint": "每股送转股比例不得高于上市公司报告期末净资产较之于期初净资产的增长率",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_18_3",
+      "subject": "上市公司",
+      "condition": "披露高送转方案且最近两年净利润持续增长且最近三年每股收益均不低于1元且上市公司认为确有必要且依据年度财务报表进行高送转",
+      "constraint": "应当充分披露高送转的主要考虑及其合理性且送转股后每股收益不低于0.5元",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_1",
+      "subject": "上市公司",
+      "condition": "报告期尚未产生收入",
+      "constraint": "不得披露高送转方案",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_2",
+      "subject": "上市公司",
+      "condition": "净利润为负",
+      "constraint": "不得披露高送转方案",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_3",
+      "subject": "上市公司",
+      "condition": "净利润同比下降50%以上",
+      "constraint": "不得披露高送转方案",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_4",
+      "subject": "上市公司",
+      "condition": "送转股后每股收益低于0.2元",
+      "constraint": "不得披露高送转方案",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_5",
+      "subject": "上市公司",
+      "condition": "相关股东在前三个月存在减持情形",
+      "constraint": "不得披露高送转方案",
+      "contextual_info": "相关股东指公司的提议股东和控股股东及其一致行动人、董事、监事及高级管理人员",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_6",
+      "subject": "上市公司",
+      "condition": "相关股东在后三个月存在减持计划",
+      "constraint": "不得披露高送转方案",
+      "contextual_info": "相关股东指公司的提议股东和控股股东及其一致行动人、董事、监事及高级管理人员",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_7",
+      "subject": "上市公司",
+      "condition": "存在限售股（股权激励限售股除外）且相关股东所持限售股解除限售前后3个月内",
+      "constraint": "不得披露高送转方案",
+      "contextual_info": "相关股东指公司的提议股东和控股股东及其一致行动人、董事、监事及高级管理人员",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_8",
+      "subject": "上市公司",
+      "condition": "",
+      "constraint": "应当向相关股东问询其未来三个月是否不存在减持计划及未来四至六个月的减持计划并披露",
+      "contextual_info": "相关股东指公司的提议股东和控股股东及其一致行动人、董事、监事及高级管理人员",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_19_9",
+      "subject": "相关股东",
+      "condition": "",
+      "constraint": "应当将其作为承诺事项予以遵守",
+      "contextual_info": "相关股东指公司的提议股东和控股股东及其一致行动人、董事、监事及高级管理人员",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_20_1",
+      "subject": "上市公司",
+      "condition": "披露高送转方案",
+      "constraint": "应当包含结合净利润、净资产的增长情况等说明高送转与公司业绩增长的匹配情况",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_20_2",
+      "subject": "上市公司",
+      "condition": "披露高送转方案",
+      "constraint": "应当包含结合最近三年每股收益情况等说明高送转的主要考虑及其合理性",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_20_3",
+      "subject": "上市公司",
+      "condition": "披露高送转方案",
+      "constraint": "应当包含相关股东前三个月的持股变动情况",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_20_4",
+      "subject": "上市公司",
+      "condition": "披露高送转方案",
+      "constraint": "应当包含相关股东未来三个月不存在减持计划的承诺",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_20_5",
+      "subject": "上市公司",
+      "condition": "披露高送转方案",
+      "constraint": "应当包含相关股东未来四至六个月的减持计划",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_20_6",
+      "subject": "上市公司",
+      "condition": "披露高送转方案",
+      "constraint": "应当包含方案披露前后三个月不存在相关股东所持限售股（股权激励限售股除外）解除限售或限售期即将届满的情形",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_20_7",
+      "subject": "上市公司",
+      "condition": "披露高送转方案",
+      "constraint": "应当包含相关说明及风险提示，明确方案对公司报告期内净资产收益率及投资者持股比例没有实质性影响，说明方案对公司报告期内每股收益、每股净资产的摊薄情况，以及方案尚需履行的审议程序及其不确定性等",
+      "contextual_info": "",
+      "relation": [
+        "refer_to"
+      ],
+      "target": [
+        "cu_17_1"
+      ]
+    },
+    {
+      "cu_id": "cu_21_1",
+      "subject": "上市公司",
+      "condition": "权益分派方案经股东大会审议通过且根据有关规定权益分派事项不需要经有权部门事前审批",
+      "constraint": "应当在2个月内实施完毕",
+      "contextual_info": "根据有关规定权益分派事项需经有权部门事前审批的除外"
+    },
+    {
+      "cu_id": "cu_21_2",
+      "subject": "上市公司",
+      "condition": "董事会根据年度股东大会审议通过的中期分红条件和上限制定具体方案后且根据有关规定权益分派事项不需要经有权部门事前审批",
+      "constraint": "应当在2个月内实施完毕",
+      "contextual_info": "根据有关规定权益分派事项需经有权部门事前审批的除外"
+    },
+    {
+      "cu_id": "cu_22_1",
+      "subject": "上市公司",
+      "condition": "实施权益分派",
+      "constraint": "应通过中国证券登记结算有限责任公司进行分派",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_22_2",
+      "subject": "上市公司",
+      "condition": "实施权益分派",
+      "constraint": "应在本所规定信息披露平台披露权益分派实施公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_1",
+      "subject": "上市公司",
+      "condition": "申请实施权益分派",
+      "constraint": "股本基数应当以股权登记日股本数为准",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_23_2",
+      "subject": "上市公司",
+      "condition": "自向中国结算提交权益分派申请之日至实施完毕期间",
+      "constraint": "应当保持总股本和参与分派的股本基数不变",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_24_1",
+      "subject": "上市公司",
+      "condition": "已发行可转换公司债券且在存续期内且在实施权益分派时",
+      "constraint": "应当按照可转债存续期业务办理相关规定及时披露转股价格调整公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_24_2",
+      "subject": "上市公司",
+      "condition": "已进入转股期",
+      "constraint": "应当及时申请可转换公司债券的暂停与恢复转股",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_25_1",
+      "subject": "上市公司",
+      "condition": "拟自行派发部分现金红利",
+      "constraint": "应当核实自行派发现金红利股东所持股份是否存在质押或冻结股息的司法冻结情形",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_25_2",
+      "subject": "上市公司",
+      "condition": "拟自行派发部分现金红利",
+      "constraint": "应当按照相关约定或法院通知等要求派发现金红利",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_1",
+      "subject": "上市公司",
+      "condition": "实施权益分派方案",
+      "constraint": "应当做好资金安排并确保权益分派方案顺利实施",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_2",
+      "subject": "上市公司",
+      "condition": "进行款项划拨",
+      "constraint": "应当按照中国结算相关要求做好款项划拨工作",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_26_3",
+      "subject": "上市公司",
+      "condition": "未能按时完成款项划拨",
+      "constraint": "应当及时披露权益分派延期实施公告",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_27_1",
+      "subject": "上市公司",
+      "condition": "终止实施权益分派",
+      "constraint": "应召开董事会、股东大会审议终止实施权益分派的议案",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_27_2",
+      "subject": "上市公司",
+      "condition": "终止实施权益分派",
+      "constraint": "以临时报告形式披露终止原因和审议情况",
+      "contextual_info": ""
+    },
+    {
+      "cu_id": "cu_28_1",
+      "subject": "上市公司 | 相关信息披露义务人",
+      "condition": "本所对上市公司权益分派相关信息披露文件进行审查并发现存在问题",
+      "constraint": "应当及时回复，并保证回复内容的真实、准确、完整",
+      "contextual_info": "本所可以采用要求说明、公开问询等方式要求进行解释、说明、更正和补充"
+    },
+    {
+      "cu_id": "cu_28_2",
+      "subject": "上市公司",
+      "condition": "本所认为必要",
+      "constraint": "",
+      "contextual_info": "本所可以要求公司召开投资者说明会进行解释说明"
+    },
+    {
+      "cu_id": "cu_29_1",
+      "subject": "上市公司 | 相关责任主体",
+      "condition": "违反本指引相关规定",
+      "constraint": "",
+      "contextual_info": "本所可以采取自律监管措施或纪律处分"
+    },
+    {
+      "cu_id": "cu_30_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "本所将权益分派业务的监管措施实施情况按照有关规定记入上市公司诚信档案，并在再融资、重大资产重组审核中，予以重点关注"
+    },
+    {
+      "cu_id": "cu_31_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "净利润指归属于上市公司股东的净利润，不包括少数股东损益，并以扣除非经常性损益前后孰低者为计算依据"
+    },
+    {
+      "cu_id": "cu_31_2",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "最近两年同期净利润的复合增长率指[第N年净利润/第N-2年净利润的绝对值]1/2-1；若分子采取第N年中期净利润的，分母相应为第N-2年同期的净利润"
+    },
+    {
+      "cu_id": "cu_32_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "本指引由本所负责解释"
+    },
+    {
+      "cu_id": "cu_33_1",
+      "subject": "",
+      "condition": "",
+      "constraint": "",
+      "contextual_info": "本指引自发布之日起施行"
+    }
+  ],
+  "edges": [
+    {
+      "source": "cu_4_1",
+      "target": "《公司法》;公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_4_2",
+      "target": "《公司法》",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_4_3",
+      "target": "《国务院关于开展优先股试点的指导意见》",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_1",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_2",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_3",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_4",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_5",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_6",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_7",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_8",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_9",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_10",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_11",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_12",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_13",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_14",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_6_15",
+      "target": "公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_8_2",
+      "target": "cu_8_1",
+      "relation": "exclude"
+    },
+    {
+      "source": "cu_16_1",
+      "target": "《企业会计准则》;公司章程",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_16_2",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_16_3",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_16_4",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_18_1",
+      "target": "cu_31_2;cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_18_2",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_18_3",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_1",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_2",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_3",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_4",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_5",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_6",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_7",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_8",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_19_9",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_20_1",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_20_2",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_20_3",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_20_4",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_20_5",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_20_6",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    },
+    {
+      "source": "cu_20_7",
+      "target": "cu_17_1",
+      "relation": "refer_to"
+    }
+  ]
+}

@@ -1,0 +1,413 @@
+@font-face {
+    font-family: 'OPPO Sans';
+    src: url('resource/OPPO_Sans_4_0/OPPO_Sans_4_0.ttf') format('truetype');
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* 统一盒模型 */
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'OPPO Sans', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    overflow: hidden;
+}
+
+.main-container {
+    display: flex;
+    height: 100vh;
+    min-width: 800px; /* 设置一个最小宽度, 防止布局在窗口过小时崩溃 */
+}
+
+.left-panel {
+    width: 380px;
+    flex-shrink: 0; /* 防止面板在flex布局中被压缩 */
+    background-color: #ffffff;
+    padding: 25px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border-right: 1px solid #e0e0e0;
+    overflow-y: auto; /* 当内容超出时允许左侧面板滚动 */
+}
+
+.title {
+    font-size: 1.8em;
+    color: #2c3e50;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.control-section {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.control-section h2 {
+    font-size: 1.2em;
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.styled-select, .styled-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.styled-select:focus,
+.styled-input:focus {
+    border-color: #80bdff;
+    outline: 2px solid transparent; /* 用一个透明的轮廓来覆盖浏览器的默认轮廓 */
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.date-inputs input[type="date"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: 'OPPO Sans', sans-serif;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* 强制覆盖日期输入框的所有浏览器默认样式 */
+.date-inputs input[type="date"]:focus {
+    border-color: #80bdff;
+    outline: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25) !important;
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 2;
+}
+
+/* 修复Chrome和Safari中日期输入框的问题 */
+@supports (-webkit-appearance: none) {
+    .date-inputs input[type="date"] {
+        -webkit-appearance: none;
+        background-clip: padding-box;
+    }
+}
+
+/* 修复Firefox中日期输入框的问题 */
+@-moz-document url-prefix() {
+    .date-inputs input[type="date"] {
+        border: 1px solid #ccc;
+    }
+}
+
+/* 移除日期输入框的日历图标 */
+.date-inputs input[type="date"]::-webkit-calendar-picker-indicator {
+    margin-right: 5px;
+}
+
+.date-inputs span {
+    font-weight: 500;
+}
+
+.styled-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.styled-button:hover {
+    background-color: #0056b3;
+}
+
+.downloads h2 {
+    margin-bottom: 15px;
+}
+
+.download-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.download-button {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.download-button:hover {
+    background-color: #e9e9e9;
+    border-color: #ccc;
+}
+
+.right-panel {
+    flex-grow: 1;
+    overflow-y: auto; /* 使右侧面板可以垂直滚动 */
+    background-color: #f0f2f5; /* 为右侧面板添加一个背景色 */
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-section {
+    position: relative; /* 为loading spinner提供定位上下文 */
+    width: 100%;
+    height: 70vh; /* 固定高度，例如视口高度的70% */
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#echarts-graph {
+    border: none;
+}
+
+.graph-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #999999;
+    font-size: 1.2em;
+    text-align: center;
+    pointer-events: none; /* 确保不影响鼠标事件 */
+    z-index: 1;
+}
+
+/* 合规报告部分样式 */
+.md-report-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 40vh;
+    position: relative;
+}
+
+.report-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #999999;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.loading-text {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.error-text {
+    color: #c23934;
+    text-align: center;
+    padding: 20px;
+}
+
+.markdown-content h1 {
+    font-size: 1.8em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.markdown-content h2 {
+    font-size: 1.5em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #333;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.markdown-content h3 {
+    font-size: 1.2em;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.markdown-content li {
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+
+.markdown-content strong {
+    font-weight: bold;
+}
+
+.markdown-content p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.markdown-content table {
+    border-collapse: collapse;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.markdown-content table, .markdown-content th, .markdown-content td {
+    border: 1px solid #ddd;
+}
+
+.markdown-content th, .markdown-content td {
+    padding: 8px;
+    text-align: left;
+}
+
+.markdown-content th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.markdown-content tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.markdown-content code {
+    font-family: monospace;
+    background-color: #f1f1f1;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid #ddd;
+    padding-left: 15px;
+    color: #666;
+    margin: 10px 0;
+}
+
+/* Mermaid图表样式 */
+.mermaid {
+    text-align: center;
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+/* 报告页头部风格 */
+.markdown-content h1 {
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.markdown-content h2 {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.markdown-content hr {
+    border: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 20px 0;
+}
+
+.graph-section {
+    flex: 2;
+    position: relative;
+    min-height: 400px;
+}
+
+.loading-spinner, #report-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    z-index: 10;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+} 
+
+/* 公司输入容器样式 */
+.company-input-container, .shareholder-input-container {
+    width: 100%;
+    position: relative;
+}
+
+.company-input-container .styled-input, .shareholder-input-container .styled-input {
+    width: 100%;
+}
+
+/* 调整datalist的显示样式 */
+input::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+input::-webkit-calendar-picker-indicator:hover {
+    opacity: 0.8;
+}
+
+/* 股东输入框容器的动画效果 */
+#shareholder-input-container {
+    transition: all 0.3s ease-in-out;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#shareholder-input-container.visible {
+    max-height: 100px;
+    opacity: 1;
+    margin-bottom: 15px;
+} 
