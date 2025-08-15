@@ -5,7 +5,7 @@ def ask_deepseekv3(prompt):
     client = OpenAI(
         # 尽量确保有免费资金覆盖. 截至20250717凌晨还有121.24元
         base_url="https://api.siliconflow.cn/v1",
-        api_key="sk-pipazuclriqkgqmsvynzchmydwoaihibokomyvlzttcddghb"
+        api_key="..."
     )
     # 硅基流动的, 截至20250717, 这个是DeepSeek-V3-0324
     model_id = "deepseek-ai/DeepSeek-V3"
