@@ -91,6 +91,8 @@ A visual Web interface is provided for running compliance checks and viewing res
 
 **Step 1: Launch Backend Service**
 
+Add api key in **tools/call_gpt.py**
+
 Run the following command from the project root to start the FastAPI backend:
 
 ```bash
